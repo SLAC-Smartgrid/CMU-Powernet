@@ -35,6 +35,7 @@
   "dependencies": {
     "c3": "*",
     "jsx-loader": "^0.12.2",
+    "node-loader": "*",
     "lodash": "^2.4.1",
     "merge": "^1.2.0",
     "react": "^0.12.1",
@@ -47,6 +48,7 @@
     "moment": "*",
     "nvd3": "^1.8.1",
     "underscore": "*",
-    "mongoose": "*"
+    "mongodb": "*",
+    "kerberos": "*"
   }
 }

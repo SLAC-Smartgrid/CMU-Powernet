@@ -9,6 +9,7 @@ var App = React.createClass({
         <Sidebar />
         <div className="content">
           <RouteHandler />
+        
         </div>
       </div>
     );

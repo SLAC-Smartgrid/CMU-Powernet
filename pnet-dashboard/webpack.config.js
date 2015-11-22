@@ -20,6 +20,10 @@ var defaultConfig = {
       {
         test: /\.png$/,
         loader: 'file-loader'
+      },
+      {
+        test: /\.node$/,
+        loader: "node-loader"
       }
     ]
   },
@@ -30,7 +34,8 @@ var defaultConfig = {
       rdbutils: path.resolve(__dirname, 'app/scripts/helper/rdb-utils.js'),
       WidgetMixin: path.resolve(__dirname, 'app/scripts/mixins/rdb-widget-mixin.jsx'),
       BaseWidget: path.resolve(__dirname, 'app/scripts/widgets/rdb-base-widget.jsx'),
-    }
+    },
+    extensions: ['', '.js', '.jsx', '.node']
   }
 }
 

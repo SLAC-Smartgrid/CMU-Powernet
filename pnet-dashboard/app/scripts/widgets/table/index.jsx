@@ -15,14 +15,25 @@ var Widget = React.createClass({
   },
 
   componentDidMount() {
-    // from the path `/inbox/messages/:id`
-    const id = this.props.params.id
 
-    fetchMessage(id, function (err, message) {
-      this.setState({ message: message })
-    })
-  
+    this.getUsers(); 
   }, 
+
+  getUsers : function() { //we define a function for getting our users
+
+   $.ajax({ //call ajax like we would in jquery
+            url: '/allUsers',  //this is the url/route we stored our users on
+            dataType: 'json',
+            success: function(data) { //if we get a Success for our http get then..
+               this.setState({user:data}); //set the state of our user array to whatever the url returned, in this case the json with all our users
+               }.bind(this),
+        error: function(xhr, status, err) { //error logging and err tells us some idea what to debug if something went wrong.
+                console.log("error");
+               console.error(this.props.url,status, err.toString());
+            }.bind(this)
+        });
+
+   },
 
   render: function() {
     

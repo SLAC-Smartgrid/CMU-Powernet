@@ -1,25 +1,30 @@
 var React = require('react');
+var Router = require('react-router');
+var { Route, DefaultRoute, NotFoundRoute } = Router;
 var BaseWidget = require('BaseWidget');
 
 var L = require('leaflet');
 require('../../../../node_modules/leaflet/dist/leaflet.css');
 L.Icon.Default.imagePath = 'images';
 
-//var mongoose = require('mongoose');
+//var ErrorFactory = require('./factories/rdb-errorpage-factory.jsx');
+//var NotFound = ErrorFactory.create({title: '404', text : 'Route not found.'});
+var Mongoose = require('../../../../node_modules/   mongoose');
+
 
 var Widget = React.createClass({
   getDefaultProps: function(){
     return {
       center : [37.410401,-122.060032],
       marker : [
-            {
+            /*{
                 'latlng': [37.410401,-122.060032], 
                 'text': 'CMU'
             },
             {
                 'latlng': [37.4201052, -122.2021446],
                 'text' : 'SLAC'
-            }
+            }*/
       ],
       zoomLevel : 10,
       wmsTileLayerUrl : 'http://tile.stamen.com/toner/{z}/{x}/{y}.png'
@@ -36,9 +41,6 @@ var Widget = React.createClass({
   componentDidMount: function(){
     this.zoomControlOptions = { position: 'bottomright' };
     this.mapDefaultOptions = {zoomControl : false};
-    
-
-    
 
     this.createMap();
   },
