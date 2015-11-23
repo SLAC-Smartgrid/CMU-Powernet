@@ -6,6 +6,8 @@ var app = express();
 
 var COMMENTS_FILE = path.join(__dirname, 'data.json');
 
+var mongo = require('mongodb');
+
 app.set('port', (process.env.PORT || 3000));
 
 app.use('/', express.static(path.join(__dirname, 'public')));
