@@ -20,9 +20,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-
-
-app.use('/', express.static(path.join(__dirname, 'public')));
+//app.use('/', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', function(req, res) {
+    res.sendfile('./public/index.html');
+});
 
 app.get('/api/data', function(req, res) {
   fs.readFile(DATA_FILE, function(err, data) {
@@ -66,5 +68,5 @@ app.use(function(err, req, res, next) {
   });
 });
 
-
-module.exports = app;
+app.listen(3000);
+//module.exports = app;

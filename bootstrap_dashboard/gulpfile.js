@@ -3,7 +3,7 @@ var webpack = require('webpack');
 var path = require('path');
 var fs = require('fs');
 var DeepMerge = require('deep-merge');
-//var nodemon = require('nodemon');
+var nodemon = require('nodemon');
 
 var deepmerge = DeepMerge(function(target, source, key) {
   if(target instanceof Array) {
@@ -13,10 +13,7 @@ var deepmerge = DeepMerge(function(target, source, key) {
 });
 
 // generic
-var defaultConfig = {
-
-};
-
+var defaultConfig = {};
 if(process.env.NODE_ENV !== 'production') {
   defaultConfig.debug = true;
 }
@@ -30,8 +27,9 @@ var frontendConfig = config({
   entry: {
     nvdcharts : __dirname + '/public/js/nvdcharts/index.js',
     mapwidget : __dirname + '/public/js/mapwidget/index.js'
+    //c3charts  : __dirname + '/public/js/c3charts/index.js'
   },
-  output: {
+  output: { 
     path: path.join(__dirname, '/public/dist/js'),
     filename: '[name].js'
   },
@@ -62,24 +60,23 @@ fs.readdirSync('node_modules')
     nodeModules[mod] = 'commonjs ' + mod;
   });
 
-// var backendConfig = config({
-//   entry: './src/main.js',
-//   target: 'node',
-//   output: {
-//     path: path.join(__dirname, 'build'),
-//     filename: 'backend.js'
-//   },
-//   node: {
-//     __dirname: true,
-//     __filename: true
-//   },
-//   externals: nodeModules,
-//   plugins: [
-//     new webpack.IgnorePlugin(/\.(css|less)$/),
-//     new webpack.BannerPlugin('require("source-map-support").install();',
-//                              { raw: true, entryOnly: false })
-//   ]
-// });
+var backendConfig = config({
+  entry: './routes/index.js',
+  output: { 
+    path: path.join(__dirname, '/public/dist/js'),
+    filename: '[name].js'
+  },
+  node: {
+    __dirname: true,
+    __filename: true
+   },
+   externals: nodeModules,
+   plugins: [
+     new webpack.IgnorePlugin(/\.(css|less)$/),
+    new webpack.BannerPlugin('require("source-map-support").install();',
+        { raw: true, entryOnly: false })
+   ]
+});
 
 // tasks
 
@@ -87,9 +84,6 @@ function onBuild(done) {
   return function(err, stats) {
     if(err) {
       console.log('Error', err);
-    }
-    else {
-      console.log(stats.toString());
     }
 
     if(done) {
@@ -106,30 +100,30 @@ gulp.task('frontend-watch', function() {
   webpack(frontendConfig).watch(100, onBuild());
 });
 
-// gulp.task('backend-build', function(done) {
-//   webpack(backendConfig).run(onBuild(done));
-// });
+gulp.task('backend-build', function(done) {
+   webpack(backendConfig).run(onBuild(done));
+});
 
-// gulp.task('backend-watch', function() {
-//   webpack(backendConfig).watch(100, function(err, stats) {
-//     onBuild()(err, stats);
-//     nodemon.restart();
-//   });
-// });
+gulp.task('backend-watch', function() {
+  webpack(backendConfig).watch(100, function(err, stats) {
+    onBuild()(err, stats);
+    nodemon.restart();
+  });
+});
 
-// gulp.task('build', ['frontend-build', 'backend-build']);
-// gulp.task('watch', ['frontend-watch', 'backend-watch']);
+gulp.task('build', ['frontend-build', 'backend-build']);
+gulp.task('watch', ['run']);
 
-// gulp.task('run', ['frontend-watch'], function() {
-//   nodemon({
-//     execMap: {
-//       js: 'node'
-//     },
-//     script: path.join(__dirname, 'build/backend'),
-//     ignore: ['*'],
-//     watch: ['foo/'],
-//     ext: 'noop'
-//   }).on('restart', function() {
-//     console.log('Restarted!');
-//   });
-// });
+gulp.task('run', ['frontend-watch', 'backend-watch'], function() {
+  nodemon({
+    execMap: {
+      js: 'node'
+    },
+    script: 'app.js',
+    ignore: ['*'],
+    watch: ['public/dist/js/'],
+    ext: 'noop'
+  }).on('restart', function() {
+    console.log('Server started. Listening @ http://localhost:3000');
+  });
+});
