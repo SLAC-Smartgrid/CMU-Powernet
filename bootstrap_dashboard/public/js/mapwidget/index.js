@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
-import SimpleExample from './simple';
+import PowernetMap from './simple';
 
 import "../../bower_components/leaflet/dist/leaflet.css";
 import "../../css/maps.css"
 
 const examples = (
   <div>
-    <SimpleExample />
+    <PowernetMap />
   </div>
 );
 

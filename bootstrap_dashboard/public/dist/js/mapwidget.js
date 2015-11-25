@@ -19683,23 +19683,24 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SimpleExample = (function (_Component) {
-	  _inherits(SimpleExample, _Component);
+	var PowernetMap = (function (_Component) {
+	  _inherits(PowernetMap, _Component);
 
-	  function SimpleExample() {
-	    _classCallCheck(this, SimpleExample);
+	  function PowernetMap() {
+	    _classCallCheck(this, PowernetMap);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SimpleExample).call(this));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PowernetMap).call(this));
 
 	    _this.state = {
-	      lat: 51.505,
-	      lng: -0.09,
+
+	      lat: 37.410401,
+	      lng: -122.060032,
 	      zoom: 13
 	    };
 	    return _this;
 	  }
 
-	  _createClass(SimpleExample, [{
+	  _createClass(PowernetMap, [{
 	    key: 'render',
 	    value: function render() {
 	      var position = [this.state.lat, this.state.lng];
@@ -19729,10 +19730,10 @@
 	    }
 	  }]);
 
-	  return SimpleExample;
+	  return PowernetMap;
 	})(_react.Component);
 
-	exports.default = SimpleExample;
+	exports.default = PowernetMap;
 
 /***/ },
 /* 160 */
@@ -34496,7 +34497,7 @@
 
 
 	// module
-	exports.push([module.id, ".leaflet-container {\n  height: 400px;\n  width: 80%;\n  margin: 0 auto;\n}\n", ""]);
+	exports.push([module.id, ".leaflet-container {\n  height: 400px;\n  width: 100%;\n  margin: 0 auto;\n}\n", ""]);
 
 	// exports
 

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
 
-export default class SimpleExample extends Component {
+export default class PowernetMap extends Component {
   constructor() {
     super();
     this.state = {
-      lat: 51.505,
-      lng: -0.09,
+     
+      lat: 37.410401,
+      lng: -122.060032,
       zoom: 13,
     };
   }

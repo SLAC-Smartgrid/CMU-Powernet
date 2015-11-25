@@ -25,7 +25,7 @@ function config(overrides) {
   return deepmerge(defaultConfig, overrides || {});
 }
 
-// frontend
+// frontend 
 var frontendConfig = config({
   entry: {
     nvdcharts : __dirname + '/public/js/nvdcharts/index.js',
