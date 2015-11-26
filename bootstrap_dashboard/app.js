@@ -9,6 +9,8 @@ var fs = require('fs');
 var app = express();
 var DATA_FILE = path.join(__dirname, '/public/data.json');
 
+var mongo = require('./mongo.js');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,6 +29,9 @@ app.get('/', function(req, res) {
 });
 
 app.get('/api/data', function(req, res) {
+  mongo.query('homehubs', {}, function(err, results) {
+    console.log(results[0]);
+  });
   fs.readFile(DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
@@ -68,5 +73,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
-app.listen(3000);
+//app.listen(3000);
+mongo.init(function() {
+  app.listen(3000, function() {
+    console.log("Node app is running at localhost:" + 3000)
+  })  
+})
 //module.exports = app;
