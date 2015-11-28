@@ -22,14 +22,14 @@ function config(overrides) {
   return deepmerge(defaultConfig, overrides || {});
 }
 
-// frontend 
+// frontend
 var frontendConfig = config({
   entry: {
     nvdcharts : __dirname + '/public/js/nvdcharts/index.js',
-    mapwidget : __dirname + '/public/js/mapwidget/index.js'
-    //c3charts  : __dirname + '/public/js/c3charts/index.js'
+    mapwidget : __dirname + '/public/js/mapwidget/index.js',
+    bootstrap : __dirname + '/public/js/bootstrap/index.js'
   },
-  output: { 
+  output: {
     path: path.join(__dirname, '/public/dist/js'),
     filename: '[name].js'
   },
@@ -62,7 +62,7 @@ fs.readdirSync('node_modules')
 
 var backendConfig = config({
   entry: './routes/index.js',
-  output: { 
+  output: {
     path: path.join(__dirname, '/public/dist/js'),
     filename: '[name].js'
   },
