@@ -4,7 +4,7 @@
 3. Build: gulp build
 4. Lauch: gulp run
 
-## Public RESTful APTs
+## Public RESTful APIs
 ### /api/registerhh  
 Type: POST  
 Parameters: None  
