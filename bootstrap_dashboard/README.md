@@ -8,7 +8,7 @@
 ### /api/registerhh  
 Type: POST  
 Parameters: None  
-Function: Register a new homehub, and return the its uid
+Function: Register a new homehub, and return its uid
 
 ### /api/listhhs
 Type: GET  
