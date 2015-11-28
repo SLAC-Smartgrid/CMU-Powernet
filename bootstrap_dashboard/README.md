@@ -28,7 +28,7 @@ Function: Update the specific homehub information
 ### /api/hhstatus
 Type: POST  
 Parameters: {"uid" : "the homehub uid", "power" : "power consumption", [device status list]}  
-Function: Update the specific homehub information
+Function: Send current homehub status to the cloud control
 
 ### /api/price
 Type: GET  
