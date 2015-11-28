@@ -9,7 +9,12 @@ var fs = require('fs');
 var app = express();
 var DATA_FILE = path.join(__dirname, '/public/data.json');
 
-var mongo = require('./mongo.js');
+// MongoDB wrapper
+var mongo = require('./mongo');
+// Used when query collection by _id field
+var ObjectId = require('mongodb').ObjectID;
+// Constants used in this application
+var constants = require('./constants');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,18 +25,135 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-//app.use('/', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
     res.sendfile('./public/index.html');
 });
 
-app.get('/api/data', function(req, res) {
-  mongo.query('homehubs', {}, function(err, results) {
-    console.log(results[0]);
+
+/**
+* REST APIs for other applications to feed/retrieve homehub
+* status
+*/
+
+/**
+*  Register a new homehub to the cloud controller.
+*  Return the uuid of the new homehub
+*/
+app.post('/api/registerhh', function(req, res) {
+  var hh = {};
+  mongo.insertOne(constants.HOMEHUBS, hh, function (err, result) {
+    if(err != null) {
+      internalError(res, err);
+    } else {
+      res.status(constants.SUCCESS).send({'uid' : hh._id});
+    }
   });
+});
+
+/**
+* List all the homehub configurations
+*/
+app.get('/api/listhhs', function(req, res) {
+  mongo.query(constants.HOMEHUBS, {}, function(err, docs) {
+    if(err != null) {
+      internalError(res, err);
+    } else {
+      res.status(constants.SUCCESS).send(docs);
+    }
+  });
+});
+
+/**
+* Retrieve specifc homehub configuration
+*/
+app.get('/api/hhinfo', function(req, res) {
+  mongo.query(constants.HOMEHUBS, {'_id': new ObjectId(req.query.uid)},
+    function(err, docs) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        var doc = {};
+        if(docs.length > 0) {
+          doc = docs[0];
+        }
+        res.status(constants.SUCCESS).send(doc);
+      }
+    });
+});
+
+/**
+* Update the homehub information, which includes the name, 
+* longitude, latitude and the device list
+*/
+app.post('/api/hhinfo', function(req, res) {
+  mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.body.uid)},
+    {$set: req.body.info}, function(err, result) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        res.status(constants.SUCCESS).send('');
+      }
+    });
+});
+
+/**
+* Feed the homehub status
+*/
+app.post('/api/hhstatus', function(req, res) {
+  mongo.insertOne(constants.HHSTATUS, req.body,
+    function(err, result) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        res.status(constants.SUCCESS).send('');
+      }
+    });
+});
+
+/**
+  Get the price for a specific homehub
+*/
+app.get('/api/price', function(req, res) {
+  mongo.query(constants.HOMEHUBS, {'_id': new ObjectId(req.query.uid)},
+    function(err, docs) {
+      if(err != null || docs.length == 0) {
+        internalError(res, err);
+      } else {
+        res.status(constants.SUCCESS).send({'price':docs[0].price});
+      }
+    });
+});
+
+/**
+* Set the price for a specific homehub
+*/
+app.post('/api/price', function(req, res) {
+  mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.body.uid)},
+    {$set: {'price' : req.body.price}}, function(err, result) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        res.status(constants.SUCCESS).send('');
+      }
+    });
+});
+
+/**
+* Helper function to return internal error message
+* to the web client.
+* @param res - The Http Response object
+* @param err - The error object
+* @return void
+*/
+function internalError(res, err) {
+  console.warn(err);
+  res.status(constants.INTERNAL_ERROR).send('Internal Error');
+}
+
+
+app.get('/api/data', function(req, res) {
   fs.readFile(DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
