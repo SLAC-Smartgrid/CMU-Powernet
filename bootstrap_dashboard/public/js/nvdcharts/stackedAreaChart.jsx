@@ -46,12 +46,9 @@ var DataBox = React.createClass({
         y={this.getY}
         controlLabels={{stacked:"Stacked"}}
         duration="300"
-        configure = {this.chartConfigure}/>
+        configure = {this.chartConfigure} />
     );
   }
 });
 
-ReactDOM.render(
-  <DataBox url="/api/data" pollInterval={2000} />,
-  document.getElementById('stackedChart')
-);
+export default DataBox;

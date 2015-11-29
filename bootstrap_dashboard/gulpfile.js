@@ -25,7 +25,6 @@ function config(overrides) {
 // frontend
 var frontendConfig = config({
   entry: {
-    nvdcharts : __dirname + '/public/js/nvdcharts/index.js',
     mapwidget : __dirname + '/public/js/mapwidget/index.js',
     bootstrap : __dirname + '/public/js/bootstrap/index.js'
   },
