@@ -171,11 +171,24 @@ app.get('/api/data', function(req, res) {
     var price_histories = JSON.parse(data);    
 
     for (var i = 0; i < price_histories.length; i++){
-        var rnum = Math.random(0, 81)*100;
+        var rnum = Math.round(Math.random(0, 81)*100);
         console.log(price_histories[i].values); 
         price_histories[i].values.push([tsNow, rnum]);
         console.log(price_histories[i].values);
+    
     }
+
+    fs.writeFile(DATA_FILE, JSON.stringify(price_histories), function(err, data2){
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        console.log('Rewrote ' + DATA_FILE);
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(price_histories);//JSON.parse(data));
+ 
+    }); 
     
     //var obj = [{key: "Slac", values : output[0]}, {key: "CMU sv", values : output[1]}, {key: "Yizhe Home", values : output[2]}]
 
@@ -183,8 +196,8 @@ app.get('/api/data', function(req, res) {
     //    console.error(err)
     //})  
     
-    res.setHeader('Cache-Control', 'no-cache');
-    res.json(price_histories);//JSON.parse(data));
+    //res.setHeader('Cache-Control', 'no-cache');
+    //res.json(price_histories);//JSON.parse(data));
   });
 });
 
@@ -222,6 +235,15 @@ app.use(function(err, req, res, next) {
 //app.listen(3000);
 mongo.init(function() {
   app.listen(3000, function() {
+
+    fs.writeFile(DATA_FILE, JSON.stringify([{"key":"Slac","values":[]}, {"key":"CMU sv", "values":[]}, {"key":"Yizhe Home","values":[]},{"key": "Cory Home", "values":[]}]), function(err, data2){
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        console.log('Rewrote ' + DATA_FILE);
+    });   
     console.log("Node app is running at localhost:" + 3000)
   })  
 })
