@@ -50,6 +50,10 @@
 
 	var _navigation2 = _interopRequireDefault(_navigation);
 
+	var _HHStatusPanel = __webpack_require__(284);
+
+	var _HHStatusPanel2 = _interopRequireDefault(_HHStatusPanel);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
@@ -20084,6 +20088,254 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */,
+/* 253 */,
+/* 254 */,
+/* 255 */,
+/* 256 */,
+/* 257 */,
+/* 258 */,
+/* 259 */,
+/* 260 */,
+/* 261 */,
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
+/* 273 */,
+/* 274 */,
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	__webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//So update this dynamically
+	var HHStatusData = [{
+	    'hh_id': '1',
+	    'name': 'Slac',
+	    'online': 'true',
+	    'total_power': '89'
+	}, {
+	    'hh_id': '2',
+	    'name': 'CMU sv',
+	    'online': 'true',
+	    'total_power': '304'
+	}, {
+	    'hh_id': '3',
+	    'name': 'Yizhe Home',
+	    'online': 'false',
+	    'total_power': '30'
+	}];
+
+	var HHStatusPanel = _react2.default.createClass({
+	    displayName: 'HHStatusPanel',
+
+	    render: function render() {
+	        var panels = [];
+	        for (var i = 0; i < HHStatusData.length / 3; i++) {
+	            var oneRow = [];
+	            for (var j = 0; j < 3; j++) {
+	                var hhindex = i * 3 + j;
+	                var onePanel = _react2.default.createElement(
+	                    'div',
+	                    { className: 'col-lg-3 col-md-6' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'panel panel-primary' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'panel-heading' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-3' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-flash fa-5x' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-xs-9 text-right' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'div',
+	                                            { className: 'huge' },
+	                                            HHStatusData[hhindex].total_power,
+	                                            ' KW'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        null,
+	                                        HHStatusData[hhindex].name
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'a',
+	                            { href: '#' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'panel-footer' },
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'pull-left' },
+	                                    'View Details'
+	                                ),
+	                                _react2.default.createElement(
+	                                    'span',
+	                                    { className: 'pull-right' },
+	                                    _react2.default.createElement('i', { className: 'fa fa-arrow-circle-right' })
+	                                ),
+	                                _react2.default.createElement('div', { className: 'clearfix' })
+	                            )
+	                        )
+	                    )
+	                );
+	                oneRow.push(onePanel);
+	            };
+	            panels.push(oneRow);
+	        };
+
+	        var allPanels = panels.map(function (oneRow) {
+	            return _react2.default.createElement(
+	                'div',
+	                { className: 'row' },
+	                oneRow
+	            );
+	        });
+	        console.log(allPanels);
+
+	        return _react2.default.createElement(
+	            'div',
+	            null,
+	            allPanels
+	        );
+	    }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(HHStatusPanel, null), document.getElementById('react-HHStatusPannel'));
 
 /***/ }
 /******/ ]);
