@@ -13,7 +13,7 @@ var DataBox = React.createClass({
     return d[1]
   },
   chartConfigure: function(chart) {
-    chart.xAxis.tickFormat(function(d) { return d3.time.format('%x')(new Date(d)) });
+    chart.xAxis.tickFormat(function(d) { return d3.time.format('%X')(new Date(d)) });
     chart.yAxis.tickFormat(d3.format(',.4f'));
     chart.legend.vers('furious');
   },

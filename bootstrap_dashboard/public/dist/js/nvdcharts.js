@@ -20141,7 +20141,7 @@
 	  },
 	  chartConfigure: function chartConfigure(chart) {
 	    chart.xAxis.tickFormat(function (d) {
-	      return d3.time.format('%x')(new Date(d));
+	      return d3.time.format('%X')(new Date(d));
 	    });
 	    chart.yAxis.tickFormat(d3.format(',.4f'));
 	    chart.legend.vers('furious');
