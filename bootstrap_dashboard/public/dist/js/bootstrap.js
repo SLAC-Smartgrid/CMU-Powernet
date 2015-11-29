@@ -54,9 +54,9 @@
 
 	var _HHStatusPanel2 = _interopRequireDefault(_HHStatusPanel);
 
-	var _PowerConsumptionMonitorPanel = __webpack_require__(165);
+	var _powerConsumptionMonitorPanel = __webpack_require__(165);
 
-	var _PowerConsumptionMonitorPanel2 = _interopRequireDefault(_PowerConsumptionMonitorPanel);
+	var _powerConsumptionMonitorPanel2 = _interopRequireDefault(_powerConsumptionMonitorPanel);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

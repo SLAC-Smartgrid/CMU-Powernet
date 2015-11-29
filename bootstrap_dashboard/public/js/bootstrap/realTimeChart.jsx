@@ -7,7 +7,9 @@ var stackedAreaChartStyle = {
     height: 400
 };
 
-var PowerConsumptionMonitorPanel = React.createClass({
+var PriceMonitorPanel = React.createClass({
+
+        
 
     render: function() {
         return (
@@ -42,12 +44,6 @@ var PowerConsumptionMonitorPanel = React.createClass({
                 </div>
         );
     }
-});
-
-
-ReactDOM.render(
-  <PowerConsumptionMonitorPanel />,
-  document.getElementById('react-PowerConsumptionMonitorPanel')
-);
+})
 
 

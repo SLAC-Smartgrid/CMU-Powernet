@@ -1,4 +1,5 @@
 var express = require('express');
+
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -15,6 +16,10 @@ var mongo = require('./mongo');
 var ObjectId = require('mongodb').ObjectID;
 // Constants used in this application
 var constants = require('./constants');
+
+
+var jsonfile = require('jsonfile')
+var json_file = './data.json'
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -152,15 +157,34 @@ function internalError(res, err) {
   res.status(constants.INTERNAL_ERROR).send('Internal Error');
 }
 
-
 app.get('/api/data', function(req, res) {
+
+  var tsNow = Date.now();
+  
   fs.readFile(DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
       process.exit(1);
     }
+
+    //console.log(JSON.parse(data));
+    var price_histories = JSON.parse(data);    
+
+    for (var i = 0; i < price_histories.length; i++){
+        var rnum = Math.random(0, 81)*100;
+        console.log(price_histories[i].values); 
+        price_histories[i].values.push([tsNow, rnum]);
+        console.log(price_histories[i].values);
+    }
+    
+    //var obj = [{key: "Slac", values : output[0]}, {key: "CMU sv", values : output[1]}, {key: "Yizhe Home", values : output[2]}]
+
+    //jsonfile.writeFile(json_file, obj, function (err) {
+    //    console.error(err)
+    //})  
+    
     res.setHeader('Cache-Control', 'no-cache');
-    res.json(JSON.parse(data));
+    res.json(price_histories);//JSON.parse(data));
   });
 });
 

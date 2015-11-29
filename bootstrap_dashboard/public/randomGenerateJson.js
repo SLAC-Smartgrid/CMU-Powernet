@@ -16,10 +16,7 @@ for (var i = 0; i < 20; i++) {
   }
 }
 
-
-
 var obj = [{key: "Slac", values : output[0]}, {key: "CMU sv", values : output[1]}, {key: "Yizhe Home", values : output[2]}]
-
 
 jsonfile.writeFile(file, obj, function (err) {
   console.error(err)
