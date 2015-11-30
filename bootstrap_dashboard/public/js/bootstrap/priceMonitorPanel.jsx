@@ -9,14 +9,12 @@ var stackedAreaChartStyle = {
 
 var PriceMonitorPanel = React.createClass({
 
-        
-
     render: function() {
         return (
                 <div className="col-lg-12">
                     <div className="panel panel-default">
                         <div className="panel-heading">
-                            <i className="fa fa-bar-chart-o fa-fw"></i> Power Consumption Monitor
+                            <i className="fa fa-bar-chart-o fa-fw"></i> Aggregate Price Monitor
                             <div className="pull-right">
                                 <div className="btn-group">
                                     <button type="button" className="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -38,12 +36,18 @@ var PriceMonitorPanel = React.createClass({
                             </div>
                         </div>
                         <div className="panel-body" id="stackedChart">
-                           <DataBox  url="/api/data" pollInterval={2000} />
+                           <DataBox  url="/api/aggregate_price" pollInterval={2000} />
                         </div>
                     </div>
                 </div>
         );
     }
-})
+});
+
+
+ReactDOM.render(
+  <PriceMonitorPanel />,
+  document.getElementById('react-PriceMonitorPanel')
+);
 
 

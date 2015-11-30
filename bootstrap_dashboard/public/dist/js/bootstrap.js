@@ -58,6 +58,10 @@
 
 	var _powerConsumptionMonitorPanel2 = _interopRequireDefault(_powerConsumptionMonitorPanel);
 
+	var _priceMonitorPanel = __webpack_require__(174);
+
+	var _priceMonitorPanel2 = _interopRequireDefault(_priceMonitorPanel);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
@@ -86,6 +90,10 @@
 	  "id": 2,
 	  "text": "Map",
 	  "link": "maps.html"
+	}, {
+	  "id": 3,
+	  "text": "Aggregation",
+	  "link": "aggregation.html"
 	}];
 
 	var NavTopbar = _react2.default.createClass({
@@ -53355,6 +53363,115 @@
 
 	// exports
 
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stackedAreaChart = __webpack_require__(166);
+
+	var _stackedAreaChart2 = _interopRequireDefault(_stackedAreaChart);
+
+	__webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var stackedAreaChartStyle = {
+	    height: 400
+	};
+
+	var PriceMonitorPanel = _react2.default.createClass({
+	    displayName: 'PriceMonitorPanel',
+
+	    render: function render() {
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'col-lg-12' },
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'panel panel-default' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'panel-heading' },
+	                    _react2.default.createElement('i', { className: 'fa fa-bar-chart-o fa-fw' }),
+	                    ' Aggregate Price Monitor',
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'pull-right' },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'btn-group' },
+	                            _react2.default.createElement(
+	                                'button',
+	                                { type: 'button', className: 'btn btn-default btn-xs dropdown-toggle', 'data-toggle': 'dropdown' },
+	                                'Actions',
+	                                _react2.default.createElement('span', { className: 'caret' })
+	                            ),
+	                            _react2.default.createElement(
+	                                'ul',
+	                                { className: 'dropdown-menu pull-right', role: 'menu' },
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#' },
+	                                        '10 Min'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#' },
+	                                        '1 Hour'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#' },
+	                                        '4 Hour'
+	                                    )
+	                                ),
+	                                _react2.default.createElement('li', { className: 'divider' }),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'a',
+	                                        { href: '#' },
+	                                        'Separated link'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'panel-body', id: 'stackedChart' },
+	                    _react2.default.createElement(_stackedAreaChart2.default, { url: '/api/aggregate_price', pollInterval: 2000 })
+	                )
+	            )
+	        );
+	    }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(PriceMonitorPanel, null), document.getElementById('react-PriceMonitorPanel'));
 
 /***/ }
 /******/ ]);

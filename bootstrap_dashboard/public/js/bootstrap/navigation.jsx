@@ -12,6 +12,11 @@ var navEntries = [
         "id" : 2,
         "text": "Map",
         "link": "maps.html"
+    },
+    {
+        "id" : 3,
+        "text": "Aggregation",
+        "link": "aggregation.html"
     }
 ];
 

@@ -9,17 +9,13 @@ var fs = require('fs');
 
 var app = express();
 var DATA_FILE = path.join(__dirname, '/public/data.json');
-
+var OLD_DATA_FILE = path.join(__dirname, '/public/data_initial.json');  
 // MongoDB wrapper
 var mongo = require('./mongo');
 // Used when query collection by _id field
 var ObjectId = require('mongodb').ObjectID;
 // Constants used in this application
 var constants = require('./constants');
-
-
-var jsonfile = require('jsonfile')
-var json_file = './data.json'
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -145,6 +141,40 @@ app.post('/api/price', function(req, res) {
     });
 });
 
+app.get('/api/aggregate_price', function(req, res) {
+
+  var rnum
+  var tsNow = Date.now();
+  console.log('wut');  
+  fs.readFile(DATA_FILE, function(err, data) {
+    if (err) {
+      console.error(err);
+      process.exit(1);
+    }
+    
+    var price_histories = JSON.parse(data);    
+
+    for (var i = 0; i < price_histories.length; i++){
+        rnum = Math.round(Math.random(0, 81)*100);
+        price_histories[i].values.push([tsNow, rnum]);
+    
+    }
+
+    fs.writeFile(DATA_FILE, JSON.stringify(price_histories), function(err, data2){
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+
+        res.setHeader('Cache-Control', 'no-cache');
+        res.json(price_histories);//JSON.parse(data));
+ 
+    }); 
+    
+  });
+});
+
+
 /**
 * Helper function to return internal error message
 * to the web client.
@@ -158,46 +188,15 @@ function internalError(res, err) {
 }
 
 app.get('/api/data', function(req, res) {
-
-  var tsNow = Date.now();
   
-  fs.readFile(DATA_FILE, function(err, data) {
+  fs.readFile(OLD_DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
       process.exit(1);
     }
-
-    //console.log(JSON.parse(data));
-    var price_histories = JSON.parse(data);    
-
-    for (var i = 0; i < price_histories.length; i++){
-        var rnum = Math.round(Math.random(0, 81)*100);
-        console.log(price_histories[i].values); 
-        price_histories[i].values.push([tsNow, rnum]);
-        console.log(price_histories[i].values);
-    
-    }
-
-    fs.writeFile(DATA_FILE, JSON.stringify(price_histories), function(err, data2){
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-
-        console.log('Rewrote ' + DATA_FILE);
-        res.setHeader('Cache-Control', 'no-cache');
-        res.json(price_histories);//JSON.parse(data));
- 
-    }); 
-    
-    //var obj = [{key: "Slac", values : output[0]}, {key: "CMU sv", values : output[1]}, {key: "Yizhe Home", values : output[2]}]
-
-    //jsonfile.writeFile(json_file, obj, function (err) {
-    //    console.error(err)
-    //})  
-    
-    //res.setHeader('Cache-Control', 'no-cache');
-    //res.json(price_histories);//JSON.parse(data));
+   
+    res.setHeader('Cache-Control', 'no-cache');
+    res.json(JSON.parse(data));
   });
 });
 

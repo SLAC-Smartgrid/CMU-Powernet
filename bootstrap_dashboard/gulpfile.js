@@ -60,7 +60,7 @@ fs.readdirSync('node_modules')
   });
 
 var backendConfig = config({
-  entry: './routes/index.js',
+    entry: './routes/index.js',
   output: {
     path: path.join(__dirname, '/public/dist/js'),
     filename: '[name].js'
