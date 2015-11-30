@@ -6,6 +6,7 @@ import '../../css/dashboard.css';
 var stackedAreaChartStyle = {
     height: 400
 };
+                    
 
 var PowerConsumptionMonitorPanel = React.createClass({
 
@@ -38,13 +39,9 @@ var PowerConsumptionMonitorPanel = React.createClass({
                            <DataBox  url="/api/aggregate_price" pollInterval={2000} />
                         </div>
 
-                    </div>
-                    
-                /*    <div className="panel-body" id="powerConsumptionMonitorPanel">
-                        <DataBox  url="/api/data" pollInterval={2000} />
-                    </div>
-                </div>*/
 
+                    </div>
+                </div>
             </div>
 
         );
