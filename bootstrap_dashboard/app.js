@@ -145,7 +145,7 @@ app.get('/api/aggregate_price', function(req, res) {
 
   var rnum
   var tsNow = Date.now();
-  console.log('wut');  
+   
   fs.readFile(DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
@@ -167,7 +167,7 @@ app.get('/api/aggregate_price', function(req, res) {
         }
 
         res.setHeader('Cache-Control', 'no-cache');
-        res.json(price_histories);//JSON.parse(data));
+        res.json(price_histories);
  
     }); 
     

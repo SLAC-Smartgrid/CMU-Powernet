@@ -36,7 +36,7 @@ var PowerConsumptionMonitorPanel = React.createClass({
                             </div>
                         </div>
                         <div className="panel-body" id="stackedChart">
-                           <DataBox  url="/api/data" pollInterval={2000} />
+                           <DataBox  url="/api/aggregate_price" pollInterval={2000} />
                         </div>
                     </div>
                 </div>

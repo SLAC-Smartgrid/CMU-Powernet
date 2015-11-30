@@ -6,17 +6,20 @@ var navEntries = [
     {
         "id" : 1,
         "text": "Dash Board",
-        "link": "index.html"
+        "link": "index.html",
+        "onClick": "_nav_change"
     },
     {
         "id" : 2,
         "text": "Map",
-        "link": "maps.html"
+        "link": "maps.html",
+        "onClick": "_nav_change"
     },
     {
         "id" : 3,
         "text": "Aggregation",
-        "link": "aggregation.html"
+        "link": "aggregation.html",
+        "onClick": "_nav_change"
     }
 ];
 
@@ -31,8 +34,32 @@ var NavTopbar = React.createClass({
 });
 
 var NavSidebar = React.createClass({
+
+  //_nav_change : function(){
+  //  var path = window.location.pathname;
+  //  console.log(path);
+    /*switch(path){
+        
+
+    }*/
+  //}
+
   render : function() {
     var navSidebarItems = navEntries.map(function(item) {
+      if (item.onClick){
+        /*return (
+            <li key={item.id}>
+                <a href={item.link} onClick={item.onClick}>
+                    <i className="fa fa-dashboard fa-fw"></i>
+                    {item.text}
+                </a>
+            </li>
+        );*/
+ 
+      }
+      console.log("ONCLICK: " + item.onClick);
+        
+
       return (
         <li key={item.id}>
           <a href={item.link}>

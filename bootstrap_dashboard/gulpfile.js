@@ -29,7 +29,7 @@ var frontendConfig = config({
     bootstrap : __dirname + '/public/js/bootstrap/index.js'
   },
   output: {
-    path: path.join(__dirname, '/public/dist/js'),
+    path: path.join(__dirname, './public/dist/js'),
     filename: '[name].js'
   },
   module: {
@@ -62,7 +62,7 @@ fs.readdirSync('node_modules')
 var backendConfig = config({
     entry: './routes/index.js',
   output: {
-    path: path.join(__dirname, '/public/dist/js'),
+    path: path.join(__dirname, './public/dist/js'),
     filename: '[name].js'
   },
   node: {

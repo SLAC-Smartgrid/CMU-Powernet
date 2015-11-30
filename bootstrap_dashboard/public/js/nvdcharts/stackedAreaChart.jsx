@@ -40,7 +40,8 @@ var DataBox = React.createClass({
   render: function() {
     return (
       <NVD3Chart
-        type="stackedAreaChart"
+        //type="stackedAreaChart"
+        type="lineChart"
         datum={this.state.data}
         x={this.getX}
         y={this.getY}
