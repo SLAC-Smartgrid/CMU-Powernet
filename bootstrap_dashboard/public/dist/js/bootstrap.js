@@ -58,6 +58,10 @@
 
 	var _powerConsumptionMonitorPanel2 = _interopRequireDefault(_powerConsumptionMonitorPanel);
 
+	var _powerConsumptionPieChart = __webpack_require__(174);
+
+	var _powerConsumptionPieChart2 = _interopRequireDefault(_powerConsumptionPieChart);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ },
@@ -19806,7 +19810,7 @@
 
 
 	// module
-	exports.push([module.id, "#stackedChart .nv-chart svg {\n  height: 500px;\n}\n", ""]);
+	exports.push([module.id, "#powerConsumptionMonitorPanel .nv-chart svg {\n  height: 500px;\n}\n\n#powerConsumptionPieChart .nv-chart svg {\n  height: 500px;\n}\n", ""]);
 
 	// exports
 
@@ -20233,7 +20237,7 @@
 	        var allPanels = panels.map(function (oneRow) {
 	            return _react2.default.createElement(
 	                'div',
-	                { className: 'row' },
+	                { className: 'col-lg-12' },
 	                oneRow
 	            );
 	        });
@@ -20281,7 +20285,7 @@
 	    render: function render() {
 	        return _react2.default.createElement(
 	            'div',
-	            { className: 'col-lg-12' },
+	            { className: 'col-lg-8' },
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'panel panel-default' },
@@ -20344,14 +20348,21 @@
 	                                )
 	                            )
 	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'panel-body', id: 'powerConsumptionMonitorPanel' },
+	                        _react2.default.createElement(_stackedAreaChart2.default, { url: '/api/aggregate_price', pollInterval: 2000 })
 	                    )
 	                ),
+	                '/*    ',
 	                _react2.default.createElement(
 	                    'div',
-	                    { className: 'panel-body', id: 'stackedChart' },
-	                    _react2.default.createElement(_stackedAreaChart2.default, { url: '/api/aggregate_price', pollInterval: 2000 })
+	                    { className: 'panel-body', id: 'powerConsumptionMonitorPanel' },
+	                    _react2.default.createElement(_stackedAreaChart2.default, { url: '/api/data', pollInterval: 2000 })
 	                )
-	            )
+	            ),
+	            '*/'
 	        );
 	    }
 	});
@@ -53384,6 +53395,142 @@
 
 	// exports
 
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _stackedAreaChart = __webpack_require__(166);
+
+	var _stackedAreaChart2 = _interopRequireDefault(_stackedAreaChart);
+
+	var _pieChart = __webpack_require__(175);
+
+	var _pieChart2 = _interopRequireDefault(_pieChart);
+
+	__webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PowerConsumptionPieCompositionPanel = _react2.default.createClass({
+	  displayName: 'PowerConsumptionPieCompositionPanel',
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'col-lg-4' },
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'panel panel-default' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-heading' },
+	          _react2.default.createElement('i', { className: 'fa fa-bar-chart-o fa-fw' }),
+	          ' Power Consumption Composition'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'panel-body', id: 'powerConsumptionPieChart' },
+	          _react2.default.createElement(_pieChart2.default, null)
+	        )
+	      )
+	    );
+	  }
+	});
+
+	_reactDom2.default.render(_react2.default.createElement(PowerConsumptionPieCompositionPanel, null), document.getElementById('react-PowerConsumptionPieChart'));
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactNvd = __webpack_require__(167);
+
+	var _reactNvd2 = _interopRequireDefault(_reactNvd);
+
+	var _jquery = __webpack_require__(171);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	__webpack_require__(172);
+
+	__webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HHStatusData = [{
+	  'hh_id': '1',
+	  'name': 'Slac',
+	  'online': 'true',
+	  'total_power': '89'
+	}, {
+	  'hh_id': '2',
+	  'name': 'CMU sv',
+	  'online': 'true',
+	  'total_power': '304'
+	}, {
+	  'hh_id': '3',
+	  'name': 'Yizhe Home',
+	  'online': 'false',
+	  'total_power': '30'
+	}];
+
+	var DonutPieChartBox = _react2.default.createClass({
+	  displayName: 'DonutPieChartBox',
+
+	  getX: function getX(d) {
+	    return d.label;
+	  },
+	  getY: function getY(d) {
+	    return d.value;
+	  },
+	  getInitialState: function getInitialState() {
+	    return { data: [] };
+	  },
+	  render: function render() {
+	    var pieData = HHStatusData.map(function (hhinfo) {
+	      return {
+	        "label": hhinfo.name,
+	        "value": hhinfo.total_power
+	      };
+	    });
+
+	    return _react2.default.createElement(_reactNvd2.default, {
+	      type: 'pieChart',
+	      datum: pieData,
+	      x: this.getX,
+	      y: this.getY,
+	      duration: '1300',
+	      donut: 'true',
+	      donutRatio: '0.35' });
+	  }
+	});
+
+	exports.default = DonutPieChartBox;
 
 /***/ }
 /******/ ]);

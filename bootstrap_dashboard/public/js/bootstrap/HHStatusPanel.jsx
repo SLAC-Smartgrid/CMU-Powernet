@@ -66,7 +66,7 @@ var HHStatusPanel = React.createClass({
 
         var allPanels = panels.map(function(oneRow) {
                 return (
-                    <div className="row">
+                    <div className="col-lg-12">
                         {oneRow}
                     </div>
                 );
