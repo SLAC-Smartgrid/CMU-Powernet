@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DataBox from '../nvdcharts/stackedAreaChart.jsx';
+import StackedAreaChart from '../nvdcharts/stackedAreaChart.jsx';
 import './css/dashboard.css';
 
 var stackedAreaChartStyle = {
@@ -36,7 +36,7 @@ var PowerConsumptionMonitorPanel = React.createClass({
                             </div>
                         </div>
                         <div className="panel-body" id="powerConsumptionMonitorPanel">
-                           <DataBox  url="/api/aggregate_price" pollInterval={2000} />
+                           <StackedAreaChart  url="/api/aggregate_price" pollInterval={2000} />
                         </div>
 
 

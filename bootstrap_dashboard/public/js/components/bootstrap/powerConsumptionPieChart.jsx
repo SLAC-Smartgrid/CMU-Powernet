@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DataBox from '../nvdcharts/stackedAreaChart.jsx';
+import StackedAreaChart from '../nvdcharts/stackedAreaChart.jsx';
 import DonutPieChartBox from '../nvdcharts/pieChart.jsx';
 import './css/dashboard.css';
 

@@ -4,7 +4,7 @@ import NVD3Chart from './lib/react-nvd3.js';
 import $ from 'jquery';
 import './css/nv.d3.min.css';
 
-var DataBox = React.createClass({
+var StackedAreaChart = React.createClass({
   getX: function(d) {
     return d[0]
   },
@@ -39,8 +39,7 @@ var DataBox = React.createClass({
   render: function() {
     return (
       <NVD3Chart
-        //type="stackedAreaChart"
-        type="lineChart"
+        type="stackedAreaChart"
         datum={this.state.data}
         x={this.getX}
         y={this.getY}
@@ -51,4 +50,4 @@ var DataBox = React.createClass({
   }
 });
 
-export default DataBox;
+export default StackedAreaChart;
