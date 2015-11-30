@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NVD3Chart from './lib/react-nvd3.js';
 import $ from 'jquery';
-import '../../css/nv.d3.min.css';
-import '../../css/dashboard.css';
+import './css/nv.d3.min.css';
 
 var DataBox = React.createClass({
   getX: function(d) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import DataBox from '../nvdcharts/stackedAreaChart.jsx';
-import '../../css/dashboard.css';
+import './css/dashboard.css';
 
 var stackedAreaChartStyle = {
     height: 400

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../css/dashboard.css';
+import './css/dashboard.css';
 
 var navEntries = [
     {
@@ -36,7 +36,7 @@ var NavSidebar = React.createClass({
     var path = window.location.pathname;
     console.log(path);
     switch(path){
-        
+
 
     }
   }*/

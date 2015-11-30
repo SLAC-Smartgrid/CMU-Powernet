@@ -25,11 +25,10 @@ function config(overrides) {
 // frontend
 var frontendConfig = config({
   entry: {
-    mapwidget : __dirname + '/public/js/mapwidget/index.js',
-    bootstrap : __dirname + '/public/js/bootstrap/index.js',
-    bootstrapMap : __dirname + '/public/js/bootstrap/indexMaps.js',
-    bootstrapAggregation : __dirname + '/public/js/bootstrap/indexAggregation.js',
-    bootstrapStatic : __dirname + '/public/js/bootstrap/indexStatic.js'
+    index : __dirname + '/public/js/index.js',
+    maps : __dirname + '/public/js/maps.js',
+    aggregation : __dirname + '/public/js/aggregation.js',
+    bootstrap : __dirname + '/public/js/bootstrapStatic.js'
   },
   output: {
     path: path.join(__dirname, './public/dist/js'),

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '../../css/dashboard.css';
+import './css/dashboard.css';
 
 //So update this dynamically
 var HHStatusData = [
