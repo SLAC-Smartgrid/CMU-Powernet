@@ -5,20 +5,48 @@ import './css/dashboard.css';
 var navEntries = [
     {
         "id" : 1,
-        "text": "Dash Board",
+        "text": " Dashboard ",
         "link": "index.html"
     },
     {
         "id" : 2,
-        "text": "Map",
-        "link": "maps.html"
+        "text": " Home Hubs ",
+        "link": "#"
     },
     {
         "id" : 3,
-        "text": "Aggregation",
+        "text": " Map ",
+        "link": "maps.html"
+    },
+    {
+        "id" : 4,
+        "text": " Aggregation ",
         "link": "aggregation.html"
     }
 ];
+
+//So update this dynamically
+var HHStatusData = [
+    {
+        'hh_id':'1',
+        'name':'Slac',
+        'online':'true',
+        'total_power':'89'
+    },
+    {
+        'hh_id':'2',
+        'name':'CMU sv',
+        'online':'true',
+        'total_power':'304'
+    },
+    {
+        'hh_id':'3',
+        'name':'Yizhe Home',
+        'online':'false',
+        'total_power':'30'
+    }
+];
+
 
 var NavTopbar = React.createClass({
   render : function() {
@@ -42,15 +70,44 @@ var NavSidebar = React.createClass({
   }*/
 
   render : function() {
-    var navSidebarItems = navEntries.map(function(item) {
+    var secondLevelLinkForHH = HHStatusData.map(function(item) {
       return (
-        <li key={item.id}>
-          <a href={item.link}>
-            <i className="fa fa-dashboard fa-fw"></i>
-            {item.text}
-          </a>
+        <li>
+          <a href={'hh/' + item.hh_id}> {item.name} </a>
         </li>
       );
+    });
+
+    navEntries.map(function(navEntry) {
+      if (navEntry.id === 2) {
+        navEntry.hasSecondLevel = true;
+      };
+    });
+
+    var navSidebarItems = navEntries.map(function(item) {
+      if (item.hasSecondLevel === true) {
+        return(
+          <li key={item.id}>
+            <a href={item.link}>
+              <i className="fa fa-dashboard fa-fw"></i>
+              {item.text}
+              <span className="fa arrow"></span>
+            </a>
+            <ul className="nav nav-second-level collapse">
+              {secondLevelLinkForHH}
+            </ul>
+          </li>
+        )
+      } else {
+        return(
+          <li key={item.id}>
+            <a href={item.link}>
+              <i className="fa fa-dashboard fa-fw"></i>
+              {item.text}
+            </a>
+          </li>
+        )
+      }
     });
 
     return (

@@ -49,7 +49,7 @@ var HHStatusPanel = React.createClass({
                                     </div>
                                 </div>
                             </div>
-                            <a href="#">
+                            <a href={'hh/' + HHStatusData[hhindex].hh_id}>
                                 <div className="panel-footer">
                                     <span className="pull-left">View Details</span>
                                     <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
