@@ -72,7 +72,6 @@ var HHStatusPanel = React.createClass({
                     </div>
                 );
         });
-        console.log(allPanels);
 
         return (
             <div>
