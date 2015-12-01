@@ -26,26 +26,31 @@ var HHStatusData = [
 
 var HHDevicesStatus = [
     {
+        "id" : 1,
         "device_type" : "Generator",
         "device_name" : "Champion Power Equipment Model 41537",
         "device_status" : "on"
     },
     {
+        "id" : 2,
         "device_type" : "Load",
         "device_name" : "Super awesome fan",
         "device_status" : "on"
     },
     {
+        "id" : 3,
         "device_type" : "Generator",
         "device_name" : "Champion Power Equipment Model 41537",
         "device_status" : "on"
     },
     {
+        "id" : 4,
         "device_type" : "Storage",
         "device_name" : "Champion Power Equipment Model 41537",
         "device_status" : "off"
     },
     {
+        "id" : 5,
         "device_type" : "Generator",
         "device_name" : "Champion Power Equipment Model 41537",
         "device_status" : "on"
@@ -59,13 +64,14 @@ var HHStatusTable = React.createClass({
                 var rowType;
                 if (entry.device_type === "Load") {
                     rowType = "success"
-                } else if (entry.device_type === "Generator" ) {
+                }
+                 else if (entry.device_type === "Generator" ) {
                     rowType = "warning"
                 } else {
                     rowType = "info"
                 }
                 return (
-                    <tr className={rowType}>
+                    <tr className={rowType} key={entry.id}>
                         <td> { entry.device_name } </td>
                         <td> { entry.device_type } </td>
                         <td> { entry.device_status } </td>

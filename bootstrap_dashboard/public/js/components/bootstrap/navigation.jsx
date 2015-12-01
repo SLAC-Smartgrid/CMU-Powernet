@@ -72,7 +72,7 @@ var NavSidebar = React.createClass({
   render : function() {
     var secondLevelLinkForHH = HHStatusData.map(function(item) {
       return (
-        <li>
+        <li key={item.hh_id} >
           <a href={'hh/' + item.hh_id}> {item.name} </a>
         </li>
       );

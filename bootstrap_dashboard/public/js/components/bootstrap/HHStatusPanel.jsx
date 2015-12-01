@@ -32,7 +32,7 @@ var HHStatusPanel = React.createClass({
             for (var j = 0; j < 3; j++) {
                 var hhindex = i * 3 + j;
                 var onePanel = (
-                    <div className="col-lg-3 col-md-6">
+                    <div className="col-lg-3 col-md-6" key={HHStatusData[hhindex].hh_id}>
                         <div className="panel panel-primary">
                             <div className="panel-heading">
                                 <div className="row">
@@ -60,13 +60,14 @@ var HHStatusPanel = React.createClass({
                     </div>
                 );
                 oneRow.push(onePanel);
+                oneRow.key = i;
             };
             panels.push(oneRow);
         };
 
         var allPanels = panels.map(function(oneRow) {
                 return (
-                    <div className="col-lg-12">
+                    <div className="col-lg-12" key={oneRow.key} >
                         {oneRow}
                     </div>
                 );
