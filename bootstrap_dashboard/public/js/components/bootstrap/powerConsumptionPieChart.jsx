@@ -8,15 +8,13 @@ var PowerConsumptionPieCompositionPanel = React.createClass({
 
     render: function() {
         return (
-          <div className="col-lg-4">
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                  <i className="fa fa-bar-chart-o fa-fw"></i> Power Consumption Composition
-                </div>
-                <div className="panel-body" id="powerConsumptionPieChart" >
-                    < DonutPieChartBox />
-                </div>
-            </div>
+          <div className="panel panel-default">
+              <div className="panel-heading">
+                <i className="fa fa-bar-chart-o fa-fw"></i> Power Consumption Composition
+              </div>
+              <div className="panel-body" id="powerConsumptionPieChart" >
+                  < DonutPieChartBox />
+              </div>
           </div>
         );
     }
