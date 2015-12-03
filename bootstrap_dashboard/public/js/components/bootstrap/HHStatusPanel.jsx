@@ -1,38 +1,38 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/dashboard.css';
-
-//So update this dynamically
-var HHStatusData = [
-    {
-        'hh_id':'1',
-        'name':'Slac',
-        'online':'true',
-        'total_power':'89'
-    },
-    {
-        'hh_id':'2',
-        'name':'CMU sv',
-        'online':'true',
-        'total_power':'304'
-    },
-    {
-        'hh_id':'3',
-        'name':'Yizhe Home',
-        'online':'false',
-        'total_power':'30'
-    }
-];
+import $ from 'jquery';
 
 var HHStatusPanel = React.createClass({
+    getInitialState: function() {
+      return {HHStatusData: []};
+    },
+    loadDatasFromServer: function() {
+      $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+            this.setState({HHStatusData: data});
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.error(this.props.url, status, err.toString());
+        }.bind(this)
+      });
+    },
+    componentDidMount: function() {
+        this.loadDatasFromServer();
+        setInterval(this.loadDatasFromServer, this.props.pollInterval);
+    },
     render: function() {
         var panels = [];
-        for (var i = 0; i < (HHStatusData.length / 3); i++) {
+        var HHStatus=this.state.HHStatusData;
+        for (var i = 0; i < (HHStatus.length / 3); i++) {
             var oneRow = [];
             for (var j = 0; j < 3; j++) {
                 var hhindex = i * 3 + j;
                 var onePanel = (
-                    <div className="col-lg-3 col-md-6" key={HHStatusData[hhindex].hh_id}>
+                    <div className="col-lg-3 col-md-6" key={HHStatus[hhindex].hh_id}>
                         <div className="panel panel-primary">
                             <div className="panel-heading">
                                 <div className="row">
@@ -42,14 +42,14 @@ var HHStatusPanel = React.createClass({
                                     <div className="col-xs-9 text-right">
                                         <div>
                                             <div className="huge">
-                                                {HHStatusData[hhindex].total_power} KW
+                                                {HHStatus[hhindex].total_power} KW
                                             </div>
                                         </div>
-                                        <div>{HHStatusData[hhindex].name}</div>
+                                        <div>{HHStatus[hhindex].name}</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href={'hh/' + HHStatusData[hhindex].hh_id}>
+                            <a href={'hh/' + HHStatus[hhindex].hh_id}>
                                 <div className="panel-footer">
                                     <span className="pull-left">View Details</span>
                                     <span className="pull-right"><i className="fa fa-arrow-circle-right"></i></span>
@@ -83,7 +83,7 @@ var HHStatusPanel = React.createClass({
 
 
 ReactDOM.render(
-  <HHStatusPanel />,
+  <HHStatusPanel url="/api/hhstatusstatic" pollInterval={2000} />,
   document.getElementById('react-HHStatusPannel')
 );
 
