@@ -6,7 +6,7 @@ var navEntries = [
     {
         "id" : 1,
         "text": " Dashboard ",
-        "link": "index.html"
+        "link": "/pages/index.html"
     },
     {
         "id" : 2,
@@ -16,12 +16,12 @@ var navEntries = [
     {
         "id" : 3,
         "text": " Map ",
-        "link": "maps.html"
+        "link": "/pages/maps.html"
     },
     {
         "id" : 4,
         "text": " Aggregation ",
-        "link": "aggregation.html"
+        "link": "/pages/aggregation.html"
     }
 ];
 
