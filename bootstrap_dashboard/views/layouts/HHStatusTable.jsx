@@ -1,6 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './css/dashboard.css';
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 //So update this dynamically
 var HHStatusData = [
