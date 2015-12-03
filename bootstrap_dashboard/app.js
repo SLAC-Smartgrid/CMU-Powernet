@@ -10,6 +10,7 @@ var fs = require('fs');
 var app = express();
 var DATA_FILE = path.join(__dirname, '/public/data.json');
 var OLD_DATA_FILE = path.join(__dirname, '/public/data_initial.json');  
+var HHSTATUS_FILE = path.join(__dirname, '/public/HHStatusData.json');
 // MongoDB wrapper
 var mongo = require('./mongo');
 // Used when query collection by _id field
@@ -192,6 +193,15 @@ function internalError(res, err) {
   console.warn(err);
   res.status(constants.INTERNAL_ERROR).send('Internal Error');
 }
+
+app.get('/api/hhstatusstatic', function(req,res) {
+  fs.readFile(HHSTATUS_FILE, function(err, data) {
+    if (err) {
+      console.error(err);
+    }
+    res.json(JSON.parse(data));
+  });
+});
 
 app.get('/api/data', function(req, res) {
   

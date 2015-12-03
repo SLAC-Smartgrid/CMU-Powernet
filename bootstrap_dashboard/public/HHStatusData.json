@@ -1,0 +1,16 @@
+[{
+    "hh_id": "1",
+    "name": "Slac",
+    "online": "true",
+    "total_power": "89"
+}, {
+    "hh_id": "2",
+    "name": "CMU sv",
+    "online": "true",
+    "total_power": "1"
+}, {
+    "hh_id": "3",
+    "name": "Yizhe Home",
+    "online": "false",
+    "total_power": "30"
+}]
