@@ -36,7 +36,7 @@ var PowerConsumptionMonitorPanel = React.createClass({
                     </div>
                 </div>
                 <div className="panel-body" id="powerConsumptionMonitorPanel">
-                        <StackedAreaChart  url="/api/aggregate_price" pollInterval={2000} />
+                        <StackedAreaChart  url="/api/v1/homehubs/aggregation/100" pollInterval={2000} />
                 </div>
             </div>
         );

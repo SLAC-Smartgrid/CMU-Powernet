@@ -194,7 +194,7 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
           for(key in history) {
             response.push(history[key]);
           }
-          res.status(constants.SUCCESS).send(response);
+          res.status(constants.SUCCESS).send(JSON.stringify(response));
         });
     }
   });

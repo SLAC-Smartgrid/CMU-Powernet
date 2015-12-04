@@ -83,7 +83,7 @@ var HHStatusPanel = React.createClass({
 
 
 ReactDOM.render(
-  <HHStatusPanel url="/api/hhstatusstatic" pollInterval={2000} />,
+  <HHStatusPanel url="/api/v1/homehubs" pollInterval={2000} />,
   document.getElementById('react-HHStatusPannel')
 );
 
