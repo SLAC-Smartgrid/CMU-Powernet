@@ -50,6 +50,7 @@ rclient.on('connect', function() {
     console.log('Redis connected');
 });
 
+//var client = redis.createClient(port, host);
 /***
 *   Setting a key value pairs
 */
