@@ -39,36 +39,6 @@ app.get('/', function(req, res) {
     res.sendfile('./public/index.html');
 });
 
-/**
-*    Redis initialisation
-*/
-var redis = require('redis');
-//Default HostName -127.0.0.1 and Port - 6379
-var rclient = redis.createClient(); //creates a new client
-
-rclient.on('connect', function() {
-    console.log('Redis connected');
-});
-
-//var client = redis.createClient(port, host);
-/***
-*   Setting a key value pairs
-*/
-rclient.hmset('Homehub', {
-    'device_id': '1',
-    'power': '100Kw',
-    'status': 'Active'
-});
-
-/****
-*   Getting keyvalue pairs
-*/
-rclient.hgetall('Homehub', function(err, object) {
-	console.log("Outputting key values using redis");
-    console.log(object);
-});
-
-//var client = redis.createClient(port, host);
 
 /**
 * REST APIs for other applications to feed/retrieve homehub
@@ -205,47 +175,13 @@ app.get('/api/aggregate_price', function(req, res) {
 
         res.setHeader('Cache-Control', 'no-cache');
         res.json(price_histories);
- 
-    }); 
-    
+
+    });
+
   });
 });
 
-/***
-* Add devices to the HomeHub
-*/
-app.post('/api/hh/:homehub_id/devices', function(req, res) {
-  var hh_id = req.param.homehub_id;
-  var hh ={}
-  /*
-  mongo.update(hh_id, {'_id': new ObjectId(req.body.device_id)},
-    {$set: {'price' : req.body.price}}, function(err, result) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send('');
-      }
-    });
-*/
-});
 
-/***
-* Delete devices to the HomeHub
-*/
-app.delete('/api/hh/:homehub_id/devices', function(req, res) {
-  var hh_id = req.param.homehub_id;
-  var hh ={}
-  /*
-  mongo.update(hh_id, {'_id': new ObjectId(req.body.device_id)},
-    {$set: {'price' : req.body.price}}, function(err, result) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send('');
-      }
-    });
-*/
-});
 /**
 * Helper function to return internal error message
 * to the web client.
