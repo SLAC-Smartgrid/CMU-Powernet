@@ -5,3 +5,7 @@
 #powerConsumptionPieChart .nv-chart svg {
   height: 500px;
 }
+
+#powerConsumptionBarChart .nv-chart svg {
+  height: 500px;
+}

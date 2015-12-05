@@ -9,7 +9,7 @@ var fs = require('fs');
 
 var app = express();
 var DATA_FILE = path.join(__dirname, '/public/data.json');
-var OLD_DATA_FILE = path.join(__dirname, '/public/data_initial.json');  
+var OLD_DATA_FILE = path.join(__dirname, '/public/data_initial.json');
 var HHSTATUS_FILE = path.join(__dirname, '/public/HHStatusData.json');
 // MongoDB wrapper
 var mongo = require('./mongo');
@@ -46,10 +46,10 @@ app.get('/', function(req, res) {
 */
 
 /**
-*  Register a new homehub to the cloud controller. Return the uuid of 
+*  Register a new homehub to the cloud controller. Return the uuid of
 *  the new homehub. If X-OpenBMS-Hub available, it should be the uuid
 *  of the homehub, and the data is updated.
-*  
+*
 */
 app.post('/api/v1/homehubs', function(req, res) {
   // It is the update case
@@ -204,19 +204,19 @@ app.get('/api/aggregate_price', function(req, res) {
 
   var rnum
   var tsNow = Date.now();
-   
+
   fs.readFile(DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
       process.exit(1);
     }
-    
-    var price_histories = JSON.parse(data);    
+
+    var price_histories = JSON.parse(data);
 
     for (var i = 0; i < price_histories.length; i++){
         rnum = Math.round(Math.random(0, 81)*100);
         price_histories[i].values.push([tsNow, rnum]);
-    
+
     }
 
     fs.writeFile(DATA_FILE, JSON.stringify(price_histories), function(err, data2){
@@ -256,13 +256,13 @@ app.get('/api/hhstatusstatic', function(req,res) {
 });
 
 app.get('/api/data', function(req, res) {
-  
+
   fs.readFile(OLD_DATA_FILE, function(err, data) {
     if (err) {
       console.error(err);
       process.exit(1);
     }
-   
+
     res.setHeader('Cache-Control', 'no-cache');
     res.json(JSON.parse(data));
   });
@@ -310,8 +310,8 @@ mongo.init(function() {
         }
 
         console.log('Rewrote ' + DATA_FILE);
-    });   
+    });
     console.log("Node app is running at localhost:" + 3000)
-  })  
+  })
 })
 //module.exports = app;
