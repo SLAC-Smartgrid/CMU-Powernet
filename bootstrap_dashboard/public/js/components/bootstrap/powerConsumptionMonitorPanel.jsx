@@ -9,7 +9,15 @@ var stackedAreaChartStyle = {
 
 
 var PowerConsumptionMonitorPanel = React.createClass({
-
+    getInitialState: function() {
+        this._timedur = 10;
+        this._dataurlroot = "/api/v1/homehubs/aggregation/";
+        return {newDataUrl: "/api/v1/homehubs/aggregation/1440"};
+    },
+    handleClick: function(i) {
+        this._timedur = i;
+        this.setState({newDataUrl: this._dataurlroot + this._timedur});
+    },
     render: function() {
         return (
             <div className="panel panel-default">
@@ -22,21 +30,22 @@ var PowerConsumptionMonitorPanel = React.createClass({
                                 <span className="caret"></span>
                             </button>
                             <ul className="dropdown-menu pull-right" role="menu">
-                                <li><a href="#">10 Min</a>
+                                <li onClick={this.handleClick.bind(this, 10)}><a href="#">10 Min</a>
                                 </li>
-                                <li><a href="#">1 Hour</a>
+                                <li onClick={this.handleClick.bind(this, 60)}><a href="#">1 Hour</a>
                                 </li>
-                                <li><a href="#">4 Hour</a>
+                                <li onClick={this.handleClick.bind(this, 240)}><a href="#">4 Hour</a>
                                 </li>
-                                <li className="divider"></li>
-                                <li><a href="#">Separated link</a>
+                                <li onClick={this.handleClick.bind(this, 480)}><a href="#">8 Hour</a>
+                                </li>
+                                <li onClick={this.handleClick.bind(this, 1440)}><a href="#">24 Hour</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="panel-body" id="powerConsumptionMonitorPanel">
-                        <StackedAreaChart  url="/api/v1/homehubs/aggregation/100" pollInterval={2000} />
+                        <StackedAreaChart  url={this.state.newDataUrl}  pollInterval={2000} />
                 </div>
             </div>
         );
