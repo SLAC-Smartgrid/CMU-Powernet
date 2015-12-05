@@ -202,12 +202,12 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
           // We should include the first and last record to make the figure pretty.
           recordCounter += 2;
           for(key in history) {
-            console.log('key -> ' + key);
+            //console.log('key -> ' + key);
             var expectedCounter = recordCounter - 1;
             if(history[key]['values'].length == 0) {
               history[key]['values'].push([timestamp, latestPower[key]]);
-            } else {
-              history[key]['values'].unshift([timestamp, history[key]['values'][0]]);
+            } else { 
+              history[key]['values'].unshift([timestamp, history[key]['values'][0][1]]);
             }
             while(expectedCounter > 0) {
               history[key]['values'].push([currentTime, latestPower[key]]);
@@ -215,7 +215,9 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
             }
             response.push(history[key]);
           }
+          console.log('');
           console.log(JSON.stringify(response));
+          console.log('');
           res.status(constants.SUCCESS).send(JSON.stringify(response));
         });
     }
