@@ -11,8 +11,8 @@ var stackedAreaChartStyle = {
 var PowerConsumptionMonitorPanel = React.createClass({
     getInitialState: function() {
         this._timedur = 10;
-        this._dataurlroot = "/api/v1/homehubs/aggregation/";
-        return {newDataUrl: "/api/v1/homehubs/aggregation/1440"};
+        this._dataurlroot = "/homehubs/aggregation/";
+        return {newDataUrl: "/homehubs/aggregation/1440"};
     },
     handleClick: function(i) {
         this._timedur = i;

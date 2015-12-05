@@ -6,7 +6,7 @@ import random
 import argparse
 from random import randint
 
-homehubs_url = 'http://localhost:3000/api/v1/homehubs/'
+homehubs_url = 'http://localhost:3000/homehubs/'
 
 homehubs = [
 {
@@ -98,8 +98,67 @@ homehubs = [
 			"name": "Generator1121"
 		}
 	}
-}
-]
+},
+{
+	"label": "SLAC Building 44",
+	"total_power": 123,
+	"location": "Stanford",
+	"callback_url": "www_homehub4_com/callback_url",
+	"state":
+	{
+		"device_1":
+		{
+			"power": 1,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Fan23"
+		},
+		"device_2":
+		{
+			"power": 100,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Light23"
+		},
+		"device_3":
+		{
+			"power": 22,
+			"status": "on",
+			"type": "Generator",
+			"name": "Generator23"
+		}
+	}
+},
+{
+	"label": "Googleplex",
+	"total_power": 123,
+	"location": "Mountain View",
+	"callback_url": "www_homehub5_com/callback_url",
+	"state":
+	{
+		"device_1":
+		{
+			"power": 1,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Fan23"
+		},
+		"device_2":
+		{
+			"power": 100,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Light23"
+		},
+		"device_3":
+		{
+			"power": 22,
+			"status": "on",
+			"type": "Generator",
+			"name": "Generator23"
+		}
+	}
+},]
 
 def laplace(variance):
 	rand = random.random()
@@ -135,11 +194,7 @@ def mock_homehub_status(ids):
 
 
 if __name__ == '__main__':
-	#print 'Register Homehubs to CC'
-	#ids = register_home_hubs()
 
-	#print 'Mock Homehubs status and send to CC'
-	#mock_homehub_status(ids)
 
 	parser = argparse.ArgumentParser(description=
 		'''Register Homehubs to Cloud Coordinator and feed homehub status to CC''')

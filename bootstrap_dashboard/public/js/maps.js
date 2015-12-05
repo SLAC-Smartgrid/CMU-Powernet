@@ -1,5 +1,4 @@
 import NavSidebar from './components/bootstrap/navigation.jsx';
-
 import React from 'react';
 import { render } from 'react-dom';
 import PowernetMap from './components/mapwidget/simple';
@@ -9,7 +8,7 @@ import "../css/maps.css"
 
 const examples = (
   <div>
-    <PowernetMap />
+    <PowernetMap url="/map/content" pollInterval={200000}/>
   </div>
 );
 

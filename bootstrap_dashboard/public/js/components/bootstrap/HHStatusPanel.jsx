@@ -27,10 +27,16 @@ var HHStatusPanel = React.createClass({
     render: function() {
         var panels = [];
         var HHStatus=this.state.HHStatusData;
+        var statuses_left = HHStatus.length+1;
+        
         for (var i = 0; i < (HHStatus.length / 3); i++) {
+            //console.log("Length is + " + HHStatus.length);
             var oneRow = [];
-            for (var j = 0; j < 3; j++) {
+            for (var j = 0; (j < 3 && j < statuses_left); j++) {
                 var hhindex = i * 3 + j;
+                /*console.log(hhindex);
+                console.log(HHStatus[hhindex].hh_id);
+                console.log("2");*/
                 var onePanel = (
                     <div className="col-lg-3 col-md-6" key={HHStatus[hhindex].hh_id}>
                         <div className="panel panel-primary">
@@ -61,6 +67,7 @@ var HHStatusPanel = React.createClass({
                 );
                 oneRow.push(onePanel);
                 oneRow.key = i;
+                statuses_left -= 1;
             };
             panels.push(oneRow);
         };
@@ -83,7 +90,7 @@ var HHStatusPanel = React.createClass({
 
 
 ReactDOM.render(
-  <HHStatusPanel url="/api/v1/homehubs" pollInterval={2000} />,
+  <HHStatusPanel url="/homehubs" pollInterval={2000} />,
   document.getElementById('react-HHStatusPannel')
 );
 
