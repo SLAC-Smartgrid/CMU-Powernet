@@ -146,14 +146,18 @@ app.get('/api/v1/homehubs', function(req, res) {
 * Retrieve the price aggregation data
 */
 app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
-  var timestamp = new Date().getTime() - req.params.timestamp * 60 * 1000;
+  var currentTime = new Date().getTime();
+  var timestamp = currentTime - req.params.timestamp * 60 * 1000;
+  
   mongo.query(constants.HOMEHUBS, {}, function (err, docs){
     if(err != null) {
       internalError(res, err);
     } else {
       var response = [];
-      var names = {}
-      var ids = []
+      var names = {};
+      var latestPower = {};
+      var ids = [];
+      var history = {};
 
       // Retrieve all existing HomeHubs
       var index = 0;
@@ -161,6 +165,10 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
         var id = ''+docs[index]._id;
         ids.push(id);
         names[id] = docs[index].label;
+        latestPower[id] = [docs[index]['total_power']];
+        history[id] = {};
+        history[id]['key'] = names[id];
+        history[id]['values'] = [];
         index++;
       }
 
@@ -170,30 +178,44 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
       }
 
       // Retrieve the history data
+      var recordCounter = 0;
       mongo.query(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}},
         function(e, records) {
-          console.log(records);
+          //console.log(records);
           if(e != null) {
             internalError(res, e);
             return;
           } else {
-            index = 0;
             var record;
-            var history = {};
+            index = 0;
             while(index < records.length) {
               record = records[index];
-              if(!(record.uuid in history)) {
-                history[record.uuid] = {};
-                history[record.uuid]['key'] = names[record.uuid];
-                history[record.uuid]['values'] = [];
-              }
               history[record.uuid]['values'].push([record['timestamp'], record['total_power']]);
               index++;
             }
           }
+          // Get the max record count
           for(key in history) {
+            recordCounter = Math.max(recordCounter, history[key]['values'].length);
+          }
+          
+          // We should include the first and last record to make the figure pretty.
+          recordCounter += 2;
+          for(key in history) {
+            console.log('key -> ' + key);
+            var expectedCounter = recordCounter - 1;
+            if(history[key]['values'].length == 0) {
+              history[key]['values'].push([timestamp, latestPower[key]]);
+            } else {
+              history[key]['values'].unshift([timestamp, history[key]['values'][0]]);
+            }
+            while(expectedCounter > 0) {
+              history[key]['values'].push([currentTime, latestPower[key]]);
+              expectedCounter--;
+            }
             response.push(history[key]);
           }
+          console.log(JSON.stringify(response));
           res.status(constants.SUCCESS).send(JSON.stringify(response));
         });
     }
