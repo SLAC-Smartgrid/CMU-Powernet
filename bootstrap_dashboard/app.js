@@ -46,106 +46,158 @@ app.get('/', function(req, res) {
 */
 
 /**
-*  Register a new homehub to the cloud controller.
-*  Return the uuid of the new homehub
+*  Register a new homehub to the cloud controller. Return the uuid of 
+*  the new homehub. If X-OpenBMS-Hub available, it should be the uuid
+*  of the homehub, and the data is updated.
+*  
 */
-app.post('/api/registerhh', function(req, res) {
-  var hh = {};
-  mongo.insertOne(constants.HOMEHUBS, hh, function (err, result) {
+app.post('/api/v1/homehubs', function(req, res) {
+  // It is the update case
+  if(constants.X_UPDATE_HUB in req.headers) {
+    console.log('Update');
+
+    mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.headers[constants.X_UPDATE_HUB])},
+    {$set: req.body}, function(err, result) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        res.status(constants.SUCCESS).send('');
+      }
+    });
+  } else {
+    // It is the registration case
+    console.log('Registration');
+
+    console.log(req.body);
+    var homehub = req.body;
+
+    mongo.insertOne(constants.HOMEHUBS, homehub, function (err, result) {
     if(err != null) {
       internalError(res, err);
     } else {
-      res.status(constants.SUCCESS).send({'uid' : hh._id});
-    }
+      res.status(constants.SUCCESS).send({'uuid' : homehub._id});
+    }});
+  }
+});
+
+/**
+*  Send Homehub status to CC whenever there is status update
+*/
+app.patch('/api/v1/homehubs/:id', function(req, res) {
+  var status = req.body;
+  status.uuid = req.params.id;
+  status.timestamp = new Date().getTime();
+
+  mongo.query(constants.HOMEHUBS, {'_id': new ObjectId(status.uuid)},
+    function(err, docs) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        /*if(docs.length == 1) {
+          var state = docs[0].state;
+          for(id in state) {
+            if(!(id in status.state)) {
+              status.state[id] = state[id];
+            }
+          }
+        }*/
+
+        mongo.insertOne(constants.HHSTATUS, status,
+          function(err, result) {
+            if(err != null) {
+              internalError(res, err);
+            }
+            delete status._id;
+            mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(status.uuid)},
+              {$set: status}, function(err, result) {
+                if(err != null) {
+                  internalError(res, err);
+                } else {
+                  res.status(constants.SUCCESS).send('');
+                }
+              });
+          });
+      }
   });
 });
 
 /**
-* List all the homehub configurations
+* List all the Homehubs
 */
-app.get('/api/listhhs', function(req, res) {
+app.get('/api/v1/homehubs', function(req, res) {
+  var response = [];
   mongo.query(constants.HOMEHUBS, {}, function(err, docs) {
     if(err != null) {
       internalError(res, err);
     } else {
-      res.status(constants.SUCCESS).send(docs);
+      var index = 0;
+      while(index < docs.length) {
+        var homehub = docs[index];
+        response.push({'hh_id': homehub._id, 'name': homehub.label,
+          'total_power': homehub.total_power, 'online': 'true'});
+        index++;
+      }
+      res.status(constants.SUCCESS).send(response);
     }
   });
 });
 
 /**
-* Retrieve specifc homehub configuration
+* Retrieve the price aggregation data
 */
-app.get('/api/hhinfo', function(req, res) {
-  mongo.query(constants.HOMEHUBS, {'_id': new ObjectId(req.query.uid)},
-    function(err, docs) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        var doc = {};
-        if(docs.length > 0) {
-          doc = docs[0];
-        }
-        res.status(constants.SUCCESS).send(doc);
-      }
-    });
-});
+app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
+  var timestamp = new Date().getTime() - req.params.timestamp * 60 * 1000;
+  mongo.query(constants.HOMEHUBS, {}, function (err, docs){
+    if(err != null) {
+      internalError(res, err);
+    } else {
+      var response = [];
+      var names = {}
+      var ids = []
 
-/**
-* Update the homehub information, which includes the name, 
-* longitude, latitude and the device list
-*/
-app.post('/api/hhinfo', function(req, res) {
-  mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.body.uid)},
-    {$set: req.body.info}, function(err, result) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send('');
+      // Retrieve all existing HomeHubs
+      var index = 0;
+      while(index < docs.length) {
+        var id = ''+docs[index]._id;
+        ids.push(id);
+        names[id] = docs[index].label;
+        index++;
       }
-    });
-});
 
-/**
-* Feed the homehub status
-*/
-app.post('/api/hhstatus', function(req, res) {
-  mongo.insertOne(constants.HHSTATUS, req.body,
-    function(err, result) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send('');
+      if(ids.length == 0) {
+        res.status(constants.SUCCESS).send(response);
+        return;
       }
-    });
-});
 
-/**
-  Get the price for a specific homehub
-*/
-app.get('/api/price', function(req, res) {
-  mongo.query(constants.HOMEHUBS, {'_id': new ObjectId(req.query.uid)},
-    function(err, docs) {
-      if(err != null || docs.length == 0) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send({'price':docs[0].price});
-      }
-    });
-});
-
-/**
-* Set the price for a specific homehub
-*/
-app.post('/api/price', function(req, res) {
-  mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.body.uid)},
-    {$set: {'price' : req.body.price}}, function(err, result) {
-      if(err != null) {
-        internalError(res, err);
-      } else {
-        res.status(constants.SUCCESS).send('');
-      }
-    });
+      // Retrieve the history data
+      mongo.query(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}},
+        function(e, records) {
+          console.log(records);
+          if(e != null) {
+            internalError(res, e);
+            return;
+          } else {
+            index = 0;
+            var record;
+            var history = {};
+            while(index < records.length) {
+              record = records[index];
+              if(!(record.uuid in history)) {
+                history[record.uuid] = {};
+                history[record.uuid]['key'] = names[record.uuid];
+                history[record.uuid]['values'] = [];
+              }
+              history[record.uuid]['values'].push([record['timestamp'], record['total_power']]);
+              index++;
+            }
+          }
+          for(key in history) {
+            response.push(history[key]);
+          }
+          res.status(constants.SUCCESS).send(JSON.stringify(response));
+        });
+    }
+  });
 });
 
 app.get('/api/aggregate_price', function(req, res) {

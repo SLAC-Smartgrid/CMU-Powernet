@@ -4,51 +4,38 @@ import NVD3Chart from './lib/react-nvd3.js';
 import $ from 'jquery';
 import './css/nv.d3.min.css';
 
-var HHStatusData = [
-    {
-        'hh_id':'1',
-        'name':'Slac',
-        'online':'true',
-        'total_power':'89'
-    },
-    {
-        'hh_id':'2',
-        'name':'CMU sv',
-        'online':'true',
-        'total_power':'304'
-    },
-    {
-        'hh_id':'3',
-        'name':'Yizhe Home',
-        'online':'false',
-        'total_power':'30'
-    }
-];
-
 var DonutPieChartBox = React.createClass({
   getX: function(d) {
-    return d.label;
+    return d.name;
   },
   getY: function(d) {
-    return d.value;
+    return d.total_power;
   },
   getInitialState: function() {
-    return {data: []};
+    return {HHStatusData: []};
+  },
+  loadDatasFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+          this.setState({HHStatusData: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+          console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  componentDidMount: function() {
+    this.loadDatasFromServer();
+    setInterval(this.loadDatasFromServer, this.props.pollInterval);
   },
   render: function() {
-    var pieData = HHStatusData.map( function(hhinfo) {
-      return (
-        {
-          "label" : hhinfo.name,
-          "value" : hhinfo.total_power
-        }
-      );
-    });
-
     return (
       <NVD3Chart
         type="pieChart"
-        datum={pieData}
+        datum={this.state.HHStatusData}
         x={this.getX}
         y={this.getY}
         duration="1300"

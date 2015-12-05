@@ -13,7 +13,7 @@ var PowerConsumptionPieCompositionPanel = React.createClass({
                 <i className="fa fa-bar-chart-o fa-fw"></i> Power Consumption Composition
               </div>
               <div className="panel-body" id="powerConsumptionPieChart" >
-                  < DonutPieChartBox />
+                  < DonutPieChartBox url="/api/v1/homehubs" pollInterval={2000} />
               </div>
           </div>
         );
