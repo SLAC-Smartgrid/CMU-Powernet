@@ -45,14 +45,21 @@ var BarChartBox = React.createClass({
       );
     });
 
+    var barChartData =[
+      {
+        key: "Cumulative Return",
+        values: barData
+      }
+    ];
+
     return (
       <NVD3Chart
         type="discreteBarChart"
-        datum={barData}
+        datum={barChartData}
         x={this.getX}
         y={this.getY}
         duration="1300"
-        donut="true"/>
+        showValues="true" />
     );
   }
 });
