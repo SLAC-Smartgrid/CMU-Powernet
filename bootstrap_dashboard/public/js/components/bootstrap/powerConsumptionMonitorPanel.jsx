@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import StackedAreaChart from '../nvdcharts/stackedAreaChart.jsx';
+import LineChart from '../nvdcharts/lineChart.jsx';
 import './css/dashboard.css';
 
 var stackedAreaChartStyle = {
@@ -45,7 +45,7 @@ var PowerConsumptionMonitorPanel = React.createClass({
                     </div>
                 </div>
                 <div className="panel-body" id="powerConsumptionMonitorPanel">
-                        <StackedAreaChart  url={this.state.newDataUrl}  pollInterval={2000} />
+                        <LineChart  url={this.state.newDataUrl}  pollInterval={2000} />
                 </div>
             </div>
         );
