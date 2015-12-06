@@ -13,7 +13,7 @@ export default class PowernetMap extends Component {
       hh_data: [],
     };
   }
-
+/*
   loadDatasFromServer() {
     $.ajax({
       url: this.props.url,
@@ -32,12 +32,12 @@ export default class PowernetMap extends Component {
       }.bind(this)
     });
   }
-
+*/
   /*componentDidMount() {
     this.loadDatasFromServer();
     setInterval(this.loadDatasFromServer, this.props.pollInterval);
   }*/
-
+/*
   makePopup(entry){
     return (
         <Popup>
@@ -68,11 +68,11 @@ export default class PowernetMap extends Component {
             }
         );
   }
-
+*/
   render() {
     const position = [this.state.lat, this.state.lng];
     
-    markers = this.makeMarkers();  
+    //markers = this.makeMarkers();  
 
     return (
       <Map center={position} zoom={this.state.zoom}>
@@ -85,7 +85,7 @@ export default class PowernetMap extends Component {
             <span>A pretty CSS3 popup. <br/> Easily customizable.</span>
           </Popup>
         </Marker>
-        { markers }     
+      
       </Map>
     );
   }
