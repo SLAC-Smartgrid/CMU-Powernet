@@ -1,5 +1,6 @@
 {
-	"label": "CMU-SV Building 23",
+	"hh_id":1,
+    "label": "CMU-SV Building 23",
 	"total_power": 123,
 	"location": "CMU-SV",
 	"callback_url": "www_homehub1_com/callback_url",
@@ -30,6 +31,7 @@
 }
 
 {
+    "hh_id": 2,
 	"label": "CMU-SV Building 19",
 	"total_power": 119,
 	"location": "CMU-SV",
@@ -61,6 +63,7 @@
 }
 
 {
+    "hh_id": 3,
 	"label": "CIC 1121",
 	"total_power": 1121,
 	"location": "Pittsburgh",
@@ -87,6 +90,70 @@
 			"status": "on",
 			"type": "Generator",
 			"name": "Generator1121"
+		}
+	}
+}
+
+{
+    "hh_id": 4,
+	"label": "SLAC",
+	"total_power": 123,
+	"location": "Stanford",
+	"callback_url": "www_homehub4_com/callback_url",
+	"state":
+	{
+		"device_1":
+		{
+			"power": 1,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Fan23"
+		},
+		"device_2":
+		{
+			"power": 100,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Light23"
+		},
+		"device_3":
+		{
+			"power": 22,
+			"status": "on",
+			"type": "Generator",
+			"name": "Generator23"
+		}
+	}
+}
+
+{
+    "hh_id": 5,
+	"label": "Googleplex",
+	"total_power": 123,
+	"location": "Mountain View",
+	"callback_url": "www_homehub5_com/callback_url",
+	"state":
+	{
+		"device_1":
+		{
+			"power": 1,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Fan23"
+		},
+		"device_2":
+		{
+			"power": 100,
+			"status": "on",
+			"type": "Consumer",
+			"name": "Light23"
+		},
+		"device_3":
+		{
+			"power": 22,
+			"status": "on",
+			"type": "Generator",
+			"name": "Generator23"
 		}
 	}
 }

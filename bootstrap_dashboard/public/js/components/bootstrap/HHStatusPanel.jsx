@@ -30,13 +30,11 @@ var HHStatusPanel = React.createClass({
         var statuses_left = HHStatus.length+1;
         
         for (var i = 0; i < (HHStatus.length / 3); i++) {
-            //console.log("Length is + " + HHStatus.length);
+            
             var oneRow = [];
             for (var j = 0; (j < 3 && j < statuses_left); j++) {
                 var hhindex = i * 3 + j;
-                /*console.log(hhindex);
-                console.log(HHStatus[hhindex].hh_id);
-                console.log("2");*/
+                
                 var onePanel = (
                     <div className="col-lg-3 col-md-6" key={HHStatus[hhindex].hh_id}>
                         <div className="panel panel-primary">

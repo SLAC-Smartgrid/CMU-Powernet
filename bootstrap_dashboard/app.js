@@ -19,7 +19,6 @@ var maproute = require('./routes/maproute.js');
 app.use('/homehubs', homehubs);
 app.use('/hhstatus', hhstatus);
 app.use('/map', maproute);
-
 /**
  * Test data files
  */

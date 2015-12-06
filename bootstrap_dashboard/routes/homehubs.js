@@ -128,7 +128,6 @@ router.get('/', function(req, res) {
           'total_power': homehub.total_power, 'online': 'true'});
         index++;
       }
-      console.log(JSON.stringify(response));
       res.status(constants.SUCCESS).send(response);
     }
   });

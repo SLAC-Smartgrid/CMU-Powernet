@@ -8,9 +8,9 @@ from random import randint
 
 homehubs_url = 'http://localhost:3000/homehubs/'
 
-homehubs = [
-{
-	"label": "CMU-SV Building 23",
+homehubs = [{
+	"hh_id":1,
+    "label": "CMU-SV Building 23",
 	"total_power": 123,
 	"location": "CMU-SV",
 	"callback_url": "www_homehub1_com/callback_url",
@@ -40,6 +40,7 @@ homehubs = [
 	}
 },
 {
+    "hh_id": 2,
 	"label": "CMU-SV Building 19",
 	"total_power": 119,
 	"location": "CMU-SV",
@@ -70,6 +71,7 @@ homehubs = [
 	}
 },
 {
+    "hh_id": 3,
 	"label": "CIC 1121",
 	"total_power": 1121,
 	"location": "Pittsburgh",
@@ -100,7 +102,8 @@ homehubs = [
 	}
 },
 {
-	"label": "SLAC Building 44",
+    "hh_id": 4,
+	"label": "SLAC",
 	"total_power": 123,
 	"location": "Stanford",
 	"callback_url": "www_homehub4_com/callback_url",
@@ -130,6 +133,7 @@ homehubs = [
 	}
 },
 {
+    "hh_id": 5,
 	"label": "Googleplex",
 	"total_power": 123,
 	"location": "Mountain View",
@@ -158,40 +162,39 @@ homehubs = [
 			"name": "Generator23"
 		}
 	}
-},]
+}]
 
 def laplace(variance):
-	rand = random.random()
-	if rand < 0.5:
-		return variance * math.log(2 * rand)
-	else:
-		return 0 - variance * math.log(2 * (1 - rand))
+    rand = random.random()
+    if rand < 0.5:
+        return variance * math.log(2 * rand)
+    else:
+        return 0 - variance * math.log(2 * (1 - rand))
 
 def register_home_hubs():
-	ids = []
-	headers = {'Content-Type':'application/json'}
-	for homehub in homehubs:
-		r = requests.post(homehubs_url, data=json.dumps(homehub), headers = headers)
-		ids.append(json.loads(r.content)['uuid'])
+    ids = []
+    headers = {'Content-Type':'application/json'}
+    for homehub in homehubs:
+        r = requests.post(homehubs_url, data=json.dumps(homehub), headers = headers)
+        ids.append(json.loads(r.content)['uuid'])
 
-	return ids
+    return ids
 
 def mock_homehub_status(ids):
-	variance = 10
-	baseline = 300
-	
+    variance = 10
+    baseline = 300
 
-	while 1:
-		consumption = int(baseline + laplace(variance))
-		url = homehubs_url + ids[randint(0,len(ids) - 1)]
-		payload = {'total_power' : consumption}
-		headers = {'Content-Type':'application/json'}
-		requests.patch(url, data=json.dumps(payload), headers = headers)
 
-		print 'done sent data -> ' + url + '; ' +str(payload)
+    while 1:
+        consumption = int(baseline + laplace(variance))
+        url = homehubs_url + ids[randint(0,len(ids) - 1)]
+        payload = {'total_power' : consumption}
+        headers = {'Content-Type':'application/json'}
+        requests.patch(url, data=json.dumps(payload), headers = headers)
 
-		time.sleep(2)
+        print 'done sent data -> ' + url + '; ' +str(payload)
 
+        time.sleep(2)
 
 if __name__ == '__main__':
 

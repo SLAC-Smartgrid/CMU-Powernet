@@ -25,29 +25,6 @@ var navEntries = [
     }
 ];
 
-//So update this dynamically
-var HHStatusData = [
-    {
-        'hh_id':'1',
-        'name':'Slac',
-        'online':'true',
-        'total_power':'89'
-    },
-    {
-        'hh_id':'2',
-        'name':'CMU sv',
-        'online':'true',
-        'total_power':'304'
-    },
-    {
-        'hh_id':'3',
-        'name':'Yizhe Home',
-        'online':'false',
-        'total_power':'30'
-    }
-];
-
-
 var NavTopbar = React.createClass({
   render : function() {
     return (
@@ -59,18 +36,36 @@ var NavTopbar = React.createClass({
 });
 
 var NavSidebar = React.createClass({
+    
+   getInitialState: function() {
+      return {HHData: []};
+   },
+    
+   loadDatasFromServer: function() {
+    $.ajax({
+        url: this.props.url,
+        dataType: 'json',
+        cache: false,
+        success: function(data) {
+            this.setState({HHData: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+   },
 
-  /*_nav_change : function(){
-    var path = window.location.pathname;
-    console.log(path);
-    switch(path){
+   componentDidMount:function(){
+       this.loadDatasFromServer();
+       setInterval(this.loadDatasFromServer, this.props.pollInterval);
+   },
+
+   render : function() {
 
 
-    }
-  }*/
-
-  render : function() {
-    var secondLevelLinkForHH = HHStatusData.map(function(item) {
+    var homehubs = this.state.HHData;
+    
+    var secondLevelLinkForHH = homehubs.map(function(item) {
       return (
         <li key={item.hh_id} >
           <a href={'/pages/hh/' + item.hh_id}> {item.name} </a>
@@ -131,7 +126,7 @@ var Navigation = React.createClass({
     return (
         <nav className="navbar navbar-default navbar-static-top" role="navigation" style={navigationStyle}>
             <NavTopbar />
-            <NavSidebar />
+            <NavSidebar url="/homehubs" pollInterval={20000}/>
         </nav>
     );
   }

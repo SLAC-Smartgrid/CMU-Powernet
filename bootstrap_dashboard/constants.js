@@ -10,6 +10,9 @@ define('USER', 'user');
 define('HOMEHUBS', 'homehubs');
 define('HHSTATUS', 'hhstatus');
 
+// Files
+define('HOMEHUBS_FILE', 'homehubs.json');
+
 // HTTP Response Code
 define('SUCCESS', 200);
 define('NOT_EXIST', 404);
