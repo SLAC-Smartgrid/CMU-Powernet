@@ -181,7 +181,7 @@ def register_home_hubs():
     return ids
 
 def mock_homehub_status(ids):
-    variance = 10
+    variance = 1
     baseline = 300
 
 

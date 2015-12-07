@@ -170,7 +170,7 @@ router.get('/aggregation/:timestamp', function(req, res) {
 
       // Retrieve the history data
       var recordCounter = 0;
-      mongo.query(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}},
+      mongo.querySort(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}}, {timestamp: 1},
         function(e, records) {
           //console.log(records);
           if(e != null) {
