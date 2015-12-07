@@ -23,12 +23,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cookieParser());
 router.use(express.static(path.join(__dirname, 'public')));
 
-
-/* GET homehubs listing. */
-//router.get('/', function(req, res, next) {
-//  res.send('respond with a resource');
-//});
-
 /**
 * REST APIs for other routerlications to feed/retrieve homehub
 * status
@@ -109,6 +103,17 @@ router.patch('/:id', function(req, res) {
   });
 });
 
+function sortByHubId(a, b) {
+    var sortStatus = 0;
+
+    if (a.hh_id < b.hh_id) {
+        sortStatus = -1;
+    } else if (a.hh_id > b.hh_id) {
+            sortStatus = 1;
+    }
+    return sortStatus;
+}
+
 /**
 * List all the Homehubs
 */
@@ -128,6 +133,9 @@ router.get('/', function(req, res) {
           'total_power': homehub.total_power, 'online': 'true'});
         index++;
       }
+
+      response.sort(sortByHubId);
+
       res.status(constants.SUCCESS).send(response);
     }
   });
