@@ -54,8 +54,6 @@ app.get('/', function(req, res) {
 app.post('/api/v1/homehubs', function(req, res) {
   // It is the update case
   if(constants.X_UPDATE_HUB in req.headers) {
-    console.log('Update');
-
     mongo.update(constants.HOMEHUBS, {'_id': new ObjectId(req.headers[constants.X_UPDATE_HUB])},
     {$set: req.body}, function(err, result) {
       if(err != null) {
@@ -66,9 +64,6 @@ app.post('/api/v1/homehubs', function(req, res) {
     });
   } else {
     // It is the registration case
-    console.log('Registration');
-
-    console.log(req.body);
     var homehub = req.body;
 
     mongo.insertOne(constants.HOMEHUBS, homehub, function (err, result) {
@@ -93,15 +88,6 @@ app.patch('/api/v1/homehubs/:id', function(req, res) {
       if(err != null) {
         internalError(res, err);
       } else {
-        /*if(docs.length == 1) {
-          var state = docs[0].state;
-          for(id in state) {
-            if(!(id in status.state)) {
-              status.state[id] = state[id];
-            }
-          }
-        }*/
-
         mongo.insertOne(constants.HHSTATUS, status,
           function(err, result) {
             if(err != null) {
@@ -137,6 +123,7 @@ app.get('/api/v1/homehubs', function(req, res) {
           'total_power': homehub.total_power, 'online': 'true'});
         index++;
       }
+      response.sort(function(a, b) {return a.hh_id - b.hh_id});
       res.status(constants.SUCCESS).send(response);
     }
   });
@@ -179,9 +166,8 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
 
       // Retrieve the history data
       var recordCounter = 0;
-      mongo.query(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}},
+      mongo.querySort(constants.HHSTATUS, {'uuid' :{$in: ids}, 'timestamp' : {$gt: timestamp}}, {timestamp: 1},
         function(e, records) {
-          //console.log(records);
           if(e != null) {
             internalError(res, e);
             return;
@@ -202,7 +188,6 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
           // We should include the first and last record to make the figure pretty.
           recordCounter += 2;
           for(key in history) {
-            //console.log('key -> ' + key);
             var expectedCounter = recordCounter - 1;
             if(history[key]['values'].length == 0) {
               history[key]['values'].push([timestamp, latestPower[key]]);
@@ -215,9 +200,6 @@ app.get('/api/v1/homehubs/aggregation/:timestamp', function(req, res) {
             }
             response.push(history[key]);
           }
-          console.log('');
-          console.log(JSON.stringify(response));
-          console.log('');
           res.status(constants.SUCCESS).send(JSON.stringify(response));
         });
     }

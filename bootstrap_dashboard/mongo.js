@@ -17,6 +17,10 @@ function query(collection, condition, callback) {
 	db.collection(collection).find(condition).toArray(callback);
 }
 
+function querySort(collection, condition, sortCondition, callback) {
+	db.collection(collection).find(condition).sort(sortCondition).toArray(callback);
+}
+
 /**
 *	Delete documents in the specified collection which meets the condition
 *
@@ -92,6 +96,7 @@ exports.query = query
 exports.update = update
 exports.insertOne = insertOne
 exports.insertBulk = insertBulk
+exports.querySort = querySort
 
 /**
 *	One example of how to use the query function.	
