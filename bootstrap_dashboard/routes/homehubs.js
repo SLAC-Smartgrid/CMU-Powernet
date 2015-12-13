@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var request = require('request');
 
 // MongoDB wrapper
 var mongo = require('../mongo');
@@ -63,6 +64,32 @@ router.post('/', function(req, res) {
 });
 
 /**
+*   Used by OpenADR VEN to send the udpated result
+**/
+router.post('/price', function(req, res) {
+  var price = req.body.price;
+  var uuids = req.body.uuids;
+
+
+  var homehubs = [];
+  for(var index = 0; index < uuids.length; index++) {
+    homehubs.push(new ObjectId(uuids[index]));
+  }
+
+  mongo.query(constants.HOMEHUBS, {'_id' :{$in: homehubs}},
+    function(err, docs) {
+      if(err != null) {
+        internalError(res, err);
+      } else {
+        for(index = 0; index < docs.length; index++) {
+          request.post(docs[index].callback_url, {form:{'price':price}})
+        }
+      }
+  });
+  res.status(constants.SUCCESS).send('done');
+});
+
+/**
 *  Send Homehub status to CC whenever there is status update
 */
 router.patch('/:id', function(req, res) {
@@ -75,15 +102,6 @@ router.patch('/:id', function(req, res) {
       if(err != null) {
         internalError(res, err);
       } else {
-        /*if(docs.length == 1) {
-          var state = docs[0].state;
-          for(id in state) {
-            if(!(id in status.state)) {
-              status.state[id] = state[id];
-            }
-          }
-        }*/
-
         mongo.insertOne(constants.HHSTATUS, status,
           function(err, result) {
             if(err != null) {
