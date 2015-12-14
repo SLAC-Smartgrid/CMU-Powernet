@@ -36,7 +36,7 @@ The dashboard is implemented using the "bootstrap" and "React-NVD3" library. "Re
 This is being implemented by the OpenBMS team.
 
 ## How to Use
-1. Install mongoDB and start mongod service 
+1. Install mongoDB and start mongod service - [Mongodb Installation Manual](https://docs.mongodb.org/v3.0/tutorial/install-mongodb-on-ubuntu/)
 2. git clone https://github.com/Cpruce/OpenDER.git && cd OpenDER/bootstrap_dashboard
 3. Install dependencies: npm install
 4. Build: gulp build
